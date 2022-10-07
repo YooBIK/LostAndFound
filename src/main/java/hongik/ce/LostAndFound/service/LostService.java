@@ -1,5 +1,6 @@
 package hongik.ce.LostAndFound.service;
 
+import hongik.ce.LostAndFound.repository.JpaLostRepository;
 import hongik.ce.LostAndFound.repository.LostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -10,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class LostService {
 
-    private final LostRepository lostRepository;
+    private final JpaLostRepository jpaLostRepository;
 
 
 }
