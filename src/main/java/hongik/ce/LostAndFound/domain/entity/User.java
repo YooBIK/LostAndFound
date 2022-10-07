@@ -13,13 +13,6 @@ import javax.persistence.*;
 @Table(name = "User")
 public class User {
 
-    public User(String studentNumber, String studentName, String studentEmail, String studentNickname) {
-        this.studentNumber = studentNumber;
-        this.studentName = studentName;
-        this.studentEmail = studentEmail;
-        this.studentNickname = studentNickname;
-    }
-
     @Id
     @Column(name = "SID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

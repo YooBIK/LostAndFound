@@ -2,6 +2,7 @@ package hongik.ce.LostAndFound.domain.entity;
 
 import lombok.*;
 
+import javax.naming.Name;
 import javax.persistence.*;
 
 @AllArgsConstructor
@@ -11,7 +12,7 @@ import javax.persistence.*;
 @Builder
 @Entity
 @Table(name = "Item")
-public class Lost {
+public class Item {
 
     @Id
     @Column(name = "IID")
