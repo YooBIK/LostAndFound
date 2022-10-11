@@ -1,4 +1,4 @@
-package hongik.ce.LostAndFound.dto;
+package hongik.ce.LostAndFound.domain.dto.user.signup;
 
 
 import lombok.AllArgsConstructor;
@@ -15,4 +15,5 @@ public class UserSignUpReq {
     private String studentName;
     private String studentEmail;
     private String studentNickname;
+    private String password;
 }

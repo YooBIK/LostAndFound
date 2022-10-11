@@ -14,25 +14,25 @@ import javax.persistence.*;
 public class Lost {
 
     @Id
-    @Column(name = "IID")
+    @Column(name = "lid")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long itemId;
+    private Long lid;
 
-    @Column(name = "SID")
-    private String studentId;
+    @Column(name = "sid")
+    private String sid;
 
-    @Column(name = "FLOC")
+    @Column(name = "findLocation")
     private String findLocation;
 
-    @Column(name = "SLOC")
+    @Column(name = "storeLocation")
     private String storeLocation;
 
-    @Column(name = "IMGPATH")
+    @Column(name = "imagePath")
     private String imagePath;
 
-    @Column(name = "TITLE")
+    @Column(name = "itemTitle")
     private String itemTitle;
 
-    @Column(name = "CONTENTS")
-    private String mainText;
+    @Column(name = "contents")
+    private String contents;
 }
