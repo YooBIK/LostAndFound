@@ -18,13 +18,13 @@ import javax.persistence.Id;
 public class UserSignUpRes {
 
     public UserSignUpRes(User user) {
-        this.studentId = user.getSId();
+        this.userId = user.getUserId();
         this.studentNumber = user.getStudentNumber();
-        this.studentNickname = user.getStudentNickname();
+        this.userNickname = user.getUserNickname();
     }
 
-    private Long studentId;
+    private Long userId;
     private String studentNumber;
-    private String studentNickname;
+    private String userNickname;
 
 }

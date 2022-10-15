@@ -17,9 +17,9 @@ public enum ResponseStatus {
     2000 USER ERROR
  */
     EMPTY_STUDENT_NUMBER(false, 2000, "학번을 입력해주세요"),
-    EMPTY_STUDENT_NAME(false, 2001, "이름을 입력해주세요."),
-    EMPTY_STUDENT_EMAIL(false, 2002, "E-Mail을 입력해주세요"),
-    EMPTY_STUDENT_NICKNAME(false, 2003, "별명을 입력해주세요."),
+    EMPTY_USER_NAME(false, 2001, "이름을 입력해주세요."),
+    EMPTY_USER_EMAIL(false, 2002, "E-Mail을 입력해주세요"),
+    EMPTY_USER_NICKNAME(false, 2003, "별명을 입력해주세요."),
     EMPTY_PASSWORD(false, 2004, "비밀번호를 입력해주세요."),
 
 
@@ -31,12 +31,18 @@ public enum ResponseStatus {
 
 
 /*
-    3000 Lost ERROR
- */
+    3000 Lost & FOUND ERROR
+*/
+    EMPTY_TITLE(false,3000,"제목을 입력하세요."),
+    EMPTY_CONTENTS(false,3001,"내용을 입력하세요."),
+    EMPTY_CATEGORY(false,3002,"물건 종류를 선택하세요."),
+    EMPTY_USER_ID(false,3003,"User ID를 입력하세요."),
+
+
 
 /*
     5000 Server ERROR
- */
+*/
     DATABASE_ERROR(false,5000,"DATABASE 에러");
 
     private final boolean isSuccess;

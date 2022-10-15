@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign-Up</title>
+</head>
+<body>
+
+<form name="input" method ="post">
+    학번 : <input type="text" name="studentNumber" >
+    이름 : <input type="text" name="userName" >
+    email : <input type="text" name="userEmail" >
+    별명 : <input type="text" name="userNickname" >
+    비번 : <input type="text" name="password" >
+    <button type="submit"  onclick="location.href='/sign-up';">제출</button>
+</form>
+<div>
+    <p th:if="${isSuccess}==false" th:text="${message}"> </p>
+    <p th:unless="${isSuccess}==true"> <</p>
+</div>
+
+</body>
+</html>

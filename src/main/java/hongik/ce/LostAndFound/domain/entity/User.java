@@ -13,31 +13,33 @@ import javax.persistence.*;
 @Table(name = "User")
 public class User {
 
-    public User(String studentNumber, String studentName, String studentEmail, String studentNickname, String password) {
+    public User(String studentNumber, String password, String userName, String userEmail, String userNickname) {
         this.studentNumber = studentNumber;
-        this.studentName = studentName;
-        this.studentEmail = studentEmail;
-        this.studentNickname = studentNickname;
         this.password = password;
+        this.userName = userName;
+        this.userEmail = userEmail;
+        this.userNickname = userNickname;
     }
 
     @Id
-    @Column(name = "sid")
+    @Column(name = "userId")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long sId;
+    private Long userId;
 
     @Column(name = "studentNumber")
     private String studentNumber;
 
-    @Column(name = "studentName")
-    private String studentName;
-
-    @Column(name = "studentEmail")
-    private String studentEmail;
-
-    @Column(name = "studentNickname")
-    private String studentNickname;
-
     @Column(name = "password")
     private String password;
+
+    @Column(name = "studentName")
+    private String userName;
+
+    @Column(name = "studentEmail")
+    private String userEmail;
+
+    @Column(name = "nickname")
+    private String userNickname;
+
+
 }

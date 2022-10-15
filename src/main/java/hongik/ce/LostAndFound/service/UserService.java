@@ -7,60 +7,59 @@ import hongik.ce.LostAndFound.domain.dto.user.singin.UserSignInRes;
 import hongik.ce.LostAndFound.domain.entity.User;
 import hongik.ce.LostAndFound.domain.dto.user.signup.UserSignUpReq;
 import hongik.ce.LostAndFound.repository.JpaUserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
+
 import static hongik.ce.LostAndFound.config.ResponseStatus.*;
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class UserService {
 
     private final JpaUserRepository jpaUserRepository;
 
-    @Autowired
-    public UserService(JpaUserRepository jpaUserRepository)  {
-        this.jpaUserRepository = jpaUserRepository;
-    }
+    public UserSignUpRes signUpUser(UserSignUpReq userSignUpReq) throws BaseException {
 
-    public UserSignUpRes userSignUp(UserSignUpReq userSignUpReq) throws BaseException {
-
-        String studentName = userSignUpReq.getStudentName();
-        String studentEmail = userSignUpReq.getStudentEmail();
-        String studentNickname = userSignUpReq.getStudentNickname();
         String studentNumber = userSignUpReq.getStudentNumber();
         String password = userSignUpReq.getPassword();
+        String userName = userSignUpReq.getUserName();
+        String userEmail = userSignUpReq.getUserEmail();
+        String userNickname = userSignUpReq.getUserNickname();
 
-        Long flag;
-        try{
-            flag = jpaUserRepository.countByStudentNumber(studentNumber);
-        }catch(Exception e){
-            throw new BaseException(DATABASE_ERROR);
-        }
-
-        if(flag>0){
+        if(jpaUserRepository.existsByStudentNumber(studentNumber)){
             throw new BaseException(ALREADY_EXIST_ACCOUNT);
         }
 
-        User user = new User(studentNumber,studentName,studentEmail,studentNickname,password);
-        UserSignUpRes userSignUpRes;
+        User user = new User(studentNumber,password,userName,userEmail,userNickname);
+        User result;
+
         try{
-            userSignUpRes = new UserSignUpRes(jpaUserRepository.save(user));
+            result = jpaUserRepository.save(user);
         }catch(Exception e){
             throw new BaseException(DATABASE_ERROR);
         }
-        return userSignUpRes;
+
+        return new UserSignUpRes(result);
     }
 
-    public UserSignInRes userSignIn(UserSignInReq userSignInReq) throws BaseException{
+    public UserSignInRes signInUser(UserSignInReq userSignInReq) throws BaseException{
         String studentNumber = userSignInReq.getStudentNumber();
         String password = userSignInReq.getPassword();
+
+
+        if(!jpaUserRepository.existsByStudentNumber(studentNumber)){
+            throw new BaseException(NOT_EXIST_ACCOUNT);
+        }
+
         User user;
         try{
             user = jpaUserRepository.findByStudentNumber(studentNumber);
-        }catch(Exception e){
-            throw new BaseException(NOT_EXIST_ACCOUNT);
+        }catch (Exception e){
+            throw new BaseException(DATABASE_ERROR);
         }
 
         if(user.getPassword().equals(password)){

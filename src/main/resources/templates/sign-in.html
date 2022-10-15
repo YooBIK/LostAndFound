@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign-In</title>
+</head>
+<body>
+
+<!--<p th:text="${Response.isSuccess}"></p>-->
+<!--<p th:text="${Response.message}"></p>-->
+
+<!--<p th:text="${Response.result.userId}"></p>-->
+<!--<p th:text="${Response.result.studentNumber}"></p>-->
+<!--<p th:text="${Response.result.userNickname}"></p>-->
+
+
+    로그인 하세요 !!
+    <form method="post">
+        ID : <input type="text" name="studentNumber">
+        PASSWORD : <input type="password" name="password">
+        <button type="submit" onclick="location.href='/sign-in';">로그인</button>
+    </form>
+
+
+
+
+
+
+
+
+
+</body>
+</html>
