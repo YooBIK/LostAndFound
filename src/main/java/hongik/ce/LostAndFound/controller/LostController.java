@@ -7,6 +7,8 @@ import hongik.ce.LostAndFound.domain.dto.lost.list.DetailLostInfoRes;
 import hongik.ce.LostAndFound.domain.dto.lost.list.LostListRes;
 import hongik.ce.LostAndFound.domain.dto.lost.register.LostRegisterReq;
 import hongik.ce.LostAndFound.domain.dto.lost.register.LostRegisterRes;
+import hongik.ce.LostAndFound.domain.dto.lostcomment.LostCommentListRes;
+import hongik.ce.LostAndFound.domain.dto.user.singin.UserSignInRes;
 import hongik.ce.LostAndFound.domain.entity.Lost;
 import hongik.ce.LostAndFound.service.LostService;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +27,7 @@ public class LostController {
     private final LostService lostService;
 
     @GetMapping("")
-    public Response<List<LostListRes>> getLostList(@RequestParam(required = false) String category, @RequestParam(required = false) String year, @RequestParam(required = false) String month){
+    public Response<List<LostListRes>,List<Object>> getLostList(@RequestParam(required = false) String category, @RequestParam(required = false) String year, @RequestParam(required = false) String month){
         List<LostListRes> list;
 
         if(year == null && month == null && category == null){
@@ -50,7 +52,7 @@ public class LostController {
 
 
     @PostMapping("/register")
-    public Response<LostRegisterRes> registerLost(@RequestBody LostRegisterReq lostRegisterReq){
+    public Response<LostRegisterRes,List<Object>> registerLost(@RequestBody LostRegisterReq lostRegisterReq){
 
         try{
             if(lostRegisterReq.getUserId().equals("") || lostRegisterReq.getUserId() == null){
@@ -75,14 +77,18 @@ public class LostController {
     }
 
     @GetMapping("/{lostId}")
-    public Response<DetailLostInfoRes> findByLostId(@PathVariable Long lostId){
+    public Response<DetailLostInfoRes,List<Object>> findByLostId(@PathVariable Long lostId){
         try{
             DetailLostInfoRes detailLostInfoRes = lostService.findByLostId(lostId);
+            List<LostCommentListRes> asdf = lostService.findCommentsByLostCommentId(lostId);
             return new Response<>(detailLostInfoRes);
         }catch (BaseException e){
             return new Response<>(e.getResponseStatus());
         }
-
     }
+
+
+
+
 
 }

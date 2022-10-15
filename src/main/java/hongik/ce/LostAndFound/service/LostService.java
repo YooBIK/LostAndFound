@@ -8,10 +8,13 @@ import hongik.ce.LostAndFound.domain.dto.lost.list.DetailLostInfoRes;
 import hongik.ce.LostAndFound.domain.dto.lost.list.LostListRes;
 import hongik.ce.LostAndFound.domain.dto.lost.register.LostRegisterReq;
 import hongik.ce.LostAndFound.domain.dto.lost.register.LostRegisterRes;
+import hongik.ce.LostAndFound.domain.dto.lostcomment.LostCommentListRes;
 import hongik.ce.LostAndFound.domain.entity.Category;
 import hongik.ce.LostAndFound.domain.entity.Lost;
+import hongik.ce.LostAndFound.domain.entity.LostComment;
 import hongik.ce.LostAndFound.domain.entity.User;
 import hongik.ce.LostAndFound.repository.JpaCategoryRepository;
+import hongik.ce.LostAndFound.repository.JpaLostCommentRepository;
 import hongik.ce.LostAndFound.repository.JpaLostRepository;
 import hongik.ce.LostAndFound.repository.JpaUserRepository;
 import lombok.Getter;
@@ -40,6 +43,7 @@ public class LostService {
     private final JpaLostRepository jpaLostRepository;
     private final JpaUserRepository jpaUserRepository;
     private final JpaCategoryRepository jpaCategoryRepository;
+    private final JpaLostCommentRepository jpaLostCommentRepository;
 
 
     public List<LostListRes> getLostList(){
@@ -122,6 +126,15 @@ public class LostService {
         }
         return new DetailLostInfoRes(lost);
 
+    }
+
+    public List<LostCommentListRes> findAllCommentsByLostId(Long lostId){
+        List<LostComment> list = jpaLostCommentRepository.findByLostId(lostId);
+        List<LostCommentListRes> result = new ArrayList<>();
+        for(LostComment l : list){
+            result.add(new LostCommentListRes(l));
+        }
+        return result;
     }
 
 

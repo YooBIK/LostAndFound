@@ -15,10 +15,11 @@ public class LostListRes {
     public LostListRes(Lost lost) {
         this.lostId = lost.getLostId();
         this.lostTitle = lost.getTitle();
-        this.lostContents = lost.getTitle();
+        this.userNickname = lost.getUser().getUserNickname();
+
     }
 
     private Long lostId;
     private String lostTitle;
-    private String lostContents;
+    private String userNickname;
 }

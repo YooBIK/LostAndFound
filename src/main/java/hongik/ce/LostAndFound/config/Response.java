@@ -10,7 +10,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 @JsonPropertyOrder({"isSuccess", "code", "message","result"})
-public class Response<T> {
+public class Response<T,C> {
 
     @JsonProperty("isSuccess")
     private final Boolean isSuccess;
@@ -19,12 +19,23 @@ public class Response<T> {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private T result;
 
-    // 요청에 성공한 경우
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private C comments;
+
+//     요청에 성공한 경우
     public Response(T result) {
         this.isSuccess = SUCCESS.isSuccess();
         this.message = SUCCESS.getMessage();
         this.code = SUCCESS.getCode();
         this.result = result;
+    }
+
+    public Response(T result,C comments){
+        this.isSuccess = SUCCESS.isSuccess();
+        this.message = SUCCESS.getMessage();
+        this.code = SUCCESS.getCode();
+        this.result = result;
+        this.comments = comments;
     }
 
     // 요청에 실패한 경우
