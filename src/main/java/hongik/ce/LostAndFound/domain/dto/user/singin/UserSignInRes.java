@@ -14,9 +14,9 @@ public class UserSignInRes {
 
     public UserSignInRes(User user) {
         this.id = user.getStudentNumber();
-        this.jwt = "jwt";
     }
 
     private String id;
-    private String jwt;
+    private String accessToken;
+    private String refreshToken;
 }

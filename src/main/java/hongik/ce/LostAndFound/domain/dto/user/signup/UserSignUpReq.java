@@ -12,8 +12,8 @@ import lombok.Setter;
 @NoArgsConstructor
 public class UserSignUpReq {
     private String studentNumber;
-    private String studentName;
-    private String studentEmail;
-    private String studentNickname;
+    private String userName;
+    private String userEmail;
+    private String userNickname;
     private String password;
 }

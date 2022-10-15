@@ -1,8 +1,8 @@
 package hongik.ce.LostAndFound.domain.entity;
 
 import lombok.*;
-
 import javax.persistence.*;
+
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -10,22 +10,13 @@ import javax.persistence.*;
 @Setter
 @Builder
 @Entity
-@Table(name = "lost")
-public class Lost {
-
+@Table(name = "found")
+public class Found {
 
     @Id
-    @Column(name = "lostId")
+    @Column(name = "foundId")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long lostId;
-
-    public Lost(User user, Category category, String title, String contents, String date) {
-        this.user = user;
-        this.category = category;
-        this.title = title;
-        this.contents = contents;
-        this.date = date;
-    }
+    private String foundId;
 
     @ManyToOne
     @JoinColumn(name = "userId")
@@ -34,6 +25,18 @@ public class Lost {
     @ManyToOne
     @JoinColumn(name = "category")
     private Category category;
+
+    @Column(name = "findLocation")
+    private String findLocation;
+
+    @Column(name = "storeLocation")
+    private String storeLocation;
+
+    @Column(name = "detailLocation")
+    private String detailLocation;
+
+    @Column(name = "imagePath")
+    private String imagePath;
 
     @Column(name = "title")
     private String title;
