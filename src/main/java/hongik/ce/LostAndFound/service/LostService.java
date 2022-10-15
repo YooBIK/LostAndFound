@@ -2,7 +2,9 @@ package hongik.ce.LostAndFound.service;
 
 import com.fasterxml.jackson.databind.ser.Serializers;
 import hongik.ce.LostAndFound.config.BaseException;
+import hongik.ce.LostAndFound.config.Response;
 import hongik.ce.LostAndFound.config.ResponseStatus;
+import hongik.ce.LostAndFound.domain.dto.lost.list.DetailLostInfoRes;
 import hongik.ce.LostAndFound.domain.dto.lost.list.LostListRes;
 import hongik.ce.LostAndFound.domain.dto.lost.register.LostRegisterReq;
 import hongik.ce.LostAndFound.domain.dto.lost.register.LostRegisterRes;
@@ -12,9 +14,12 @@ import hongik.ce.LostAndFound.domain.entity.User;
 import hongik.ce.LostAndFound.repository.JpaCategoryRepository;
 import hongik.ce.LostAndFound.repository.JpaLostRepository;
 import hongik.ce.LostAndFound.repository.JpaUserRepository;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.lang.reflect.Array;
 import java.text.DateFormat;
@@ -25,8 +30,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import static hongik.ce.LostAndFound.config.ResponseStatus.DATABASE_ERROR;
-import static hongik.ce.LostAndFound.config.ResponseStatus.NOT_EXIST_ACCOUNT;
+import static hongik.ce.LostAndFound.config.ResponseStatus.*;
 
 @Service
 @Transactional
@@ -107,6 +111,17 @@ public class LostService {
 
         Lost result = jpaLostRepository.save(new Lost(user,categoryResult,title,contents,date));
         return new LostRegisterRes(result);
+    }
+
+    public DetailLostInfoRes findByLostId(Long lostId) throws BaseException{
+        Lost lost;
+        try{
+            lost = jpaLostRepository.findByLostId(lostId);
+        }catch(Exception e){
+            throw new BaseException(NOT_EXIST_LOST);
+        }
+        return new DetailLostInfoRes(lost);
+
     }
 
 

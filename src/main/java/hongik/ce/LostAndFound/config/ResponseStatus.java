@@ -39,6 +39,9 @@ public enum ResponseStatus {
     EMPTY_USER_ID(false,3003,"User ID를 입력하세요."),
 
 
+    NOT_EXIST_LOST(false,3100,"게시글이 존재하지 않습니다."),
+
+
 
 /*
     5000 Server ERROR

@@ -11,6 +11,7 @@ import java.util.List;
 public interface JpaLostRepository extends JpaRepository<Lost,Long> {
     List<Lost> findByCategory(Category category);
 
+    Lost findByLostId(Long lostId);
 
     @Query("select l from Lost l where l.category = :category AND l.date LIKE :yearMonth")
     List<Lost> findByCategoryAndYearMonth(@Param("category") Category category, @Param("yearMonth") String yearMonth);
