@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 import static hongik.ce.LostAndFound.config.ResponseStatus.*;
 
 @RestController
@@ -22,8 +24,9 @@ public class UserController {
 
     private final UserService userService;
 
+
     @PostMapping(value = "/sign-up")
-    public Response<UserSignUpRes> signUpUser(@RequestBody UserSignUpReq userSignUpReq){
+    public Response<UserSignUpRes,Object> signUpUser(@RequestBody UserSignUpReq userSignUpReq){
 
         try{
             if(userSignUpReq.getStudentNumber().equals("") || userSignUpReq.getStudentNumber() == null){
@@ -47,7 +50,7 @@ public class UserController {
     }
 
     @PostMapping(value = "/sign-in")
-    public Response<UserSignInRes> signInUser(@RequestBody UserSignInReq userSignInReq){
+    public Response<UserSignInRes, Object> signInUser(@RequestBody UserSignInReq userSignInReq){
 
         try{
             if(userSignInReq.getStudentNumber().equals("") || userSignInReq.getStudentNumber() == null){

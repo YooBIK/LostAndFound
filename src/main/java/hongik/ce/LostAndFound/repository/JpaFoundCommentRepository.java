@@ -1,4 +1,4 @@
 package hongik.ce.LostAndFound.repository;
 
-public interface JpaLostReplyRepository {
+public interface JpaFoundCommentRepository {
 }

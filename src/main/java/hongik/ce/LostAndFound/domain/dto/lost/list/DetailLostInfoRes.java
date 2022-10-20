@@ -20,6 +20,7 @@ public class DetailLostInfoRes {
         this.title = lost.getTitle();
         this.contents = lost.getContents();
         this.date = lost.getDate();
+        this.hit = lost.getHit();
     }
 
     private String userNickname;
@@ -27,5 +28,6 @@ public class DetailLostInfoRes {
     private String title;
     private String contents;
     private String date;
+    private Long hit;
 
 }

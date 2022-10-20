@@ -1,6 +1,8 @@
 package hongik.ce.LostAndFound.domain.entity;
 
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 
@@ -11,6 +13,7 @@ import javax.persistence.*;
 @Builder
 @Entity
 @Table(name = "lost")
+@DynamicInsert
 public class Lost {
 
 
@@ -43,4 +46,7 @@ public class Lost {
 
     @Column(name = "date")
     private String date;
+
+    @Column(name = "hit", columnDefinition = "INTEGER default 0")
+    private Long hit;
 }
