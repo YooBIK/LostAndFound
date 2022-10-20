@@ -1,9 +1,7 @@
 package hongik.ce.LostAndFound.service;
 
-import com.fasterxml.jackson.databind.ser.Serializers;
 import hongik.ce.LostAndFound.config.BaseException;
 import hongik.ce.LostAndFound.config.Response;
-import hongik.ce.LostAndFound.config.ResponseStatus;
 import hongik.ce.LostAndFound.domain.dto.lost.list.DetailLostInfoRes;
 import hongik.ce.LostAndFound.domain.dto.lost.list.LostListRes;
 import hongik.ce.LostAndFound.domain.dto.lost.register.LostRegisterReq;
@@ -17,21 +15,14 @@ import hongik.ce.LostAndFound.repository.JpaCategoryRepository;
 import hongik.ce.LostAndFound.repository.JpaLostCommentRepository;
 import hongik.ce.LostAndFound.repository.JpaLostRepository;
 import hongik.ce.LostAndFound.repository.JpaUserRepository;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
-import java.lang.reflect.Array;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 import static hongik.ce.LostAndFound.config.ResponseStatus.*;
 
@@ -54,40 +45,6 @@ public class LostService {
         }
         return result;
     }
-
-    public List<LostListRes> getLostList(String category, String year, String month){
-
-        Category c = jpaCategoryRepository.findByCategory(category);
-        String yearMonth = year + "-" + month;
-
-        List<Lost> list = jpaLostRepository.findByCategoryAndYearMonth(c,yearMonth);
-        List<LostListRes> result = new ArrayList<>();
-        for(Lost l : list){
-            result.add(new LostListRes(l));
-        }
-        return result;
-    }
-
-    public List<LostListRes> getLostListByCategory(String category){
-        Category c = jpaCategoryRepository.findByCategory(category);
-        List<Lost> list = jpaLostRepository.findByCategory(c);
-        List<LostListRes> result = new ArrayList<>();
-        for(Lost l : list){
-            result.add(new LostListRes(l));
-        }
-        return result;
-    }
-
-    public List<LostListRes> getLostListByYearMonth(String year, String month){
-        String yearMonth = year + "-" + month;
-        List<Lost> list = jpaLostRepository.findByYearMonth(yearMonth);
-        List<LostListRes> result = new ArrayList<>();
-        for(Lost l : list){
-            result.add(new LostListRes(l));
-        }
-        return result;
-    }
-
 
 
     public LostRegisterRes registerLost(LostRegisterReq lostRegisterReq)throws BaseException {
@@ -125,14 +82,25 @@ public class LostService {
             throw new BaseException(NOT_EXIST_LOST);
         }
         return new DetailLostInfoRes(lost);
-
     }
 
-    public List<LostCommentListRes> findAllCommentsByLostId(Long lostId){
-        List<LostComment> list = jpaLostCommentRepository.findByLostId(lostId);
+    public void updateLostHit(Long lostId){
+        jpaLostRepository.updateHit(lostId);
+    }
+
+    public List<LostCommentListRes> findAllCommentsByLostId(Long lostId) throws BaseException{
+        List<LostComment> list;
+        Lost lost;
+        try{
+            lost = jpaLostRepository.findByLostId(lostId);
+        }catch (Exception e){
+            throw new BaseException(NOT_EXIST_LOST);
+        }
+
+        list = jpaLostCommentRepository.findByLost_LostId(lost.getLostId());
         List<LostCommentListRes> result = new ArrayList<>();
-        for(LostComment l : list){
-            result.add(new LostCommentListRes(l));
+        for(LostComment lc : list){
+            result.add(new LostCommentListRes(lc));
         }
         return result;
     }

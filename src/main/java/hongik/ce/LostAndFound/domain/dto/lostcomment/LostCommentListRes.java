@@ -12,14 +12,14 @@ import lombok.Setter;
 @Setter
 public class LostCommentListRes {
     public LostCommentListRes(LostComment lostComment) {
-        this.lostCommentId = lostComment.getLostCommentId();
-        this.contents = lostComment.getContents();
-        this.lostId = lostComment.getLost().getLostId();
         this.userNickname = lostComment.getUser().getUserNickname();
+        this.contents = lostComment.getContents();
+        this.date = lostComment.getDate();
+
     }
 
-    private Long lostCommentId;
+
     private String contents;
-    private Long lostId;
     private String userNickname;
+    private String date;
 }

@@ -8,8 +8,11 @@ import hongik.ce.LostAndFound.domain.dto.lost.list.LostListRes;
 import hongik.ce.LostAndFound.domain.dto.lost.register.LostRegisterReq;
 import hongik.ce.LostAndFound.domain.dto.lost.register.LostRegisterRes;
 import hongik.ce.LostAndFound.domain.dto.lostcomment.LostCommentListRes;
+import hongik.ce.LostAndFound.domain.dto.lostcomment.LostCommentRegisterReq;
+import hongik.ce.LostAndFound.domain.dto.lostcomment.LostCommentRegisterRes;
 import hongik.ce.LostAndFound.domain.dto.user.singin.UserSignInRes;
 import hongik.ce.LostAndFound.domain.entity.Lost;
+import hongik.ce.LostAndFound.domain.entity.LostComment;
 import hongik.ce.LostAndFound.service.LostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -27,32 +30,27 @@ public class LostController {
     private final LostService lostService;
 
     @GetMapping("")
-    public Response<List<LostListRes>,List<Object>> getLostList(@RequestParam(required = false) String category, @RequestParam(required = false) String year, @RequestParam(required = false) String month){
+    public Response<List<LostListRes>,Object> getLostList(){
         List<LostListRes> list;
 
-        if(year == null && month == null && category == null){
-            list = lostService.getLostList();
-            return new Response<>(list);
-        }
-
-        if(category != null){
-            list = lostService.getLostListByCategory(category);
-            return new Response<>(list);
-        }
-
-        if(year != null && month != null){
-            list = lostService.getLostListByYearMonth(year, month);
-            return new Response<>(list);
-        }
-
-        list = lostService.getLostList(category,year,month);
+        list = lostService.getLostList();
         return new Response<>(list);
-
     }
 
+    @GetMapping("/{lostId}")
+    public Response<DetailLostInfoRes,List<LostCommentListRes>> getLostInfoByLostId(@PathVariable Long lostId){
+        try{
+            lostService.updateLostHit(lostId);
+            List<LostCommentListRes> commentList = lostService.findAllCommentsByLostId(lostId);
+            DetailLostInfoRes lostInfoRes = lostService.findByLostId(lostId);
+            return new Response<>(lostInfoRes,commentList);
+        }catch(BaseException e){
+            return new Response<>(e.getResponseStatus());
+        }
+    }
 
     @PostMapping("/register")
-    public Response<LostRegisterRes,List<Object>> registerLost(@RequestBody LostRegisterReq lostRegisterReq){
+    public Response<LostRegisterRes,Object> registerLost(@RequestBody LostRegisterReq lostRegisterReq){
 
         try{
             if(lostRegisterReq.getUserId().equals("") || lostRegisterReq.getUserId() == null){
@@ -76,16 +74,24 @@ public class LostController {
         }
     }
 
-    @GetMapping("/{lostId}")
-    public Response<DetailLostInfoRes,List<Object>> findByLostId(@PathVariable Long lostId){
-        try{
-            DetailLostInfoRes detailLostInfoRes = lostService.findByLostId(lostId);
-            List<LostCommentListRes> asdf = lostService.findCommentsByLostCommentId(lostId);
-            return new Response<>(detailLostInfoRes);
-        }catch (BaseException e){
-            return new Response<>(e.getResponseStatus());
-        }
-    }
+//    @PostMapping("/comment")
+//    public Response<LostCommentRegisterRes,Object> registerLostComment(@RequestBody LostCommentRegisterReq lostCommentRegisterReq){
+//        try {
+//            if(lostCommentRegisterReq.getLostId() == null){
+//                return new Response<>(EMPTY_USER_ID);
+//            }
+//
+//            if(lostCommentRegisterReq.getUserId() == null){
+//                return new Response<>(EMPTY_USER_ID);
+//            }
+//
+//            if(lostCommentRegisterReq.getContents().equals("")||lostCommentRegisterReq.getContents()==null){
+//                return new Response<>(EMPTY_CONTENTS);
+//            }
+//            lostService.registerLostComment(lostCommentRegisterReq);
+//            return new Response<>(regi)
+//        }
+//    }
 
 
 

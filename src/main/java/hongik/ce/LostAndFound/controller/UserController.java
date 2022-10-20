@@ -24,8 +24,9 @@ public class UserController {
 
     private final UserService userService;
 
+
     @PostMapping(value = "/sign-up")
-    public Response<UserSignUpRes,List<Object>> signUpUser(@RequestBody UserSignUpReq userSignUpReq){
+    public Response<UserSignUpRes,Object> signUpUser(@RequestBody UserSignUpReq userSignUpReq){
 
         try{
             if(userSignUpReq.getStudentNumber().equals("") || userSignUpReq.getStudentNumber() == null){
@@ -49,7 +50,7 @@ public class UserController {
     }
 
     @PostMapping(value = "/sign-in")
-    public Response<UserSignInRes, List<Object>> signInUser(@RequestBody UserSignInReq userSignInReq){
+    public Response<UserSignInRes, Object> signInUser(@RequestBody UserSignInReq userSignInReq){
 
         try{
             if(userSignInReq.getStudentNumber().equals("") || userSignInReq.getStudentNumber() == null){

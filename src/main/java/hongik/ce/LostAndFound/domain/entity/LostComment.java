@@ -30,4 +30,7 @@ public class LostComment {
     @Column(name = "contents")
     private String contents;
 
+    @Column(name = "date")
+    private String date;
+
 }
