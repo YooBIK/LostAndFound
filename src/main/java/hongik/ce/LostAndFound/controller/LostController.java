@@ -74,24 +74,26 @@ public class LostController {
         }
     }
 
-//    @PostMapping("/comment")
-//    public Response<LostCommentRegisterRes,Object> registerLostComment(@RequestBody LostCommentRegisterReq lostCommentRegisterReq){
-//        try {
-//            if(lostCommentRegisterReq.getLostId() == null){
-//                return new Response<>(EMPTY_USER_ID);
-//            }
-//
-//            if(lostCommentRegisterReq.getUserId() == null){
-//                return new Response<>(EMPTY_USER_ID);
-//            }
-//
-//            if(lostCommentRegisterReq.getContents().equals("")||lostCommentRegisterReq.getContents()==null){
-//                return new Response<>(EMPTY_CONTENTS);
-//            }
-//            lostService.registerLostComment(lostCommentRegisterReq);
-//            return new Response<>(regi)
-//        }
-//    }
+    @PostMapping("/comment")
+    public Response<LostCommentRegisterRes,Object> registerLostComment(@RequestBody LostCommentRegisterReq lostCommentRegisterReq){
+        try {
+            if(lostCommentRegisterReq.getLostId() == null){
+                return new Response<>(EMPTY_USER_ID);
+            }
+
+            if(lostCommentRegisterReq.getUserId() == null){
+                return new Response<>(EMPTY_USER_ID);
+            }
+
+            if(lostCommentRegisterReq.getContents().equals("")||lostCommentRegisterReq.getContents()==null){
+                return new Response<>(EMPTY_CONTENTS);
+            }
+            LostCommentRegisterRes lostCommentRegisterRes = lostService.registerLostComment(lostCommentRegisterReq);
+            return new Response<>(lostCommentRegisterRes);
+        }catch(BaseException e){
+            return new Response<>(e.getResponseStatus());
+        }
+    }
 
 
 

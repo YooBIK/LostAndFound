@@ -7,6 +7,8 @@ import hongik.ce.LostAndFound.domain.dto.lost.list.LostListRes;
 import hongik.ce.LostAndFound.domain.dto.lost.register.LostRegisterReq;
 import hongik.ce.LostAndFound.domain.dto.lost.register.LostRegisterRes;
 import hongik.ce.LostAndFound.domain.dto.lostcomment.LostCommentListRes;
+import hongik.ce.LostAndFound.domain.dto.lostcomment.LostCommentRegisterReq;
+import hongik.ce.LostAndFound.domain.dto.lostcomment.LostCommentRegisterRes;
 import hongik.ce.LostAndFound.domain.entity.Category;
 import hongik.ce.LostAndFound.domain.entity.Lost;
 import hongik.ce.LostAndFound.domain.entity.LostComment;
@@ -105,5 +107,21 @@ public class LostService {
         return result;
     }
 
+    public LostCommentRegisterRes registerLostComment(LostCommentRegisterReq lostCommentRegisterReq) throws BaseException{
+        Long userId = lostCommentRegisterReq.getUserId();
+        Long lostId = lostCommentRegisterReq.getLostId();
 
+        User user = jpaUserRepository.findByUserId(userId);
+        Lost lost = jpaLostRepository.findByLostId(lostId);
+        String contents = lostCommentRegisterReq.getContents();
+
+        Date now = new Date();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String date = simpleDateFormat.format(now);
+
+        LostComment lostComment = new LostComment(user,lost,contents,date);
+        LostComment result = jpaLostCommentRepository.save(lostComment);
+
+        return new LostCommentRegisterRes(result.getLostCommentId());
+    }
 }

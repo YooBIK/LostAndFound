@@ -14,6 +14,13 @@ import javax.persistence.*;
 @Table(name = "LostComment")
 public class LostComment {
 
+    public LostComment(User user, Lost lost, String contents, String date) {
+        this.user = user;
+        this.lost = lost;
+        this.contents = contents;
+        this.date = date;
+    }
+
     @Id
     @Column(name = "lostCommentId")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

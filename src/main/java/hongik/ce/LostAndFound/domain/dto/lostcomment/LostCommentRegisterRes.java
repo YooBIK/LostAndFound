@@ -10,5 +10,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class LostCommentRegisterRes {
-    private String asdf;
+
+    private Long lostCommentId;
 }
