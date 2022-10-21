@@ -20,7 +20,19 @@ public class Found {
     @Id
     @Column(name = "foundId")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private String foundId;
+    private Long foundId;
+
+    public Found(User user,String title,Category category,String lost_location,String lost_detail,String store_location,String store_detail,String content,String date) {
+        this.user = user;
+        this.category = category;
+        this.title = title;
+        this.lost_location = lost_location;
+        this.lost_detail = lost_detail;
+        this.store_location = store_location;
+        this.store_detail = store_detail;
+        this.content = content;
+        this.date = date;
+    }
 
     @ManyToOne
     @JoinColumn(name = "userId")
@@ -45,8 +57,8 @@ public class Found {
     @Column(name = "store_detail")
     private String store_detail;
 
-    @Column(name = "imagePath")
-    private String imagePath;
+//    @Column(name = "imagePath")
+//    private String imagePath;
 
     @Column(name = "content")
     private String content;

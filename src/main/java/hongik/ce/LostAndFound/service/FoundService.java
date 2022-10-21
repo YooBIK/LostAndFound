@@ -37,17 +37,12 @@ public class FoundService {
         Long userId = foundRegisterReq.getUserId();
         String title = foundRegisterReq.getTitle();
         String category = foundRegisterReq.getCategory();
-        String title = foundRegisterReq.getTitle();
-        String contents = foundRegisterReq.getContent();
+        String lost_location = foundRegisterReq.getLost_location();
+        String lost_detail = foundRegisterReq.getLost_detail();
+        String store_location = foundRegisterReq.getStore_location();
+        String store_detail = foundRegisterReq.getStore_detail();
+        String content = foundRegisterReq.getContent();
 
-        private Long userId;
-        private String title;
-        private String category;
-        private String lost_location;
-        private String lost_detail;
-        private String store_location;
-        private String store_detail;
-        private String content;
         Date now = new Date();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String date = simpleDateFormat.format(now);
@@ -65,8 +60,8 @@ public class FoundService {
             throw new BaseException(NOT_EXIST_ACCOUNT);
         }
 
-        Lost result = jpaFoundRepository.save(new Found(user,categoryResult,title,contents,date));
-        return new LostRegisterRes(result);
+        Found result = jpaFoundRepository.save(new Found(user,title,categoryResult,lost_location,lost_detail,store_location,store_detail,content,date));
+        return new FoundRegisterRes(result);
     }
 
 
