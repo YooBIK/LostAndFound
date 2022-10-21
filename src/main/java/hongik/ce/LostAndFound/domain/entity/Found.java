@@ -19,8 +19,8 @@ public class Found {
 
     @Id
     @Column(name = "foundId")
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private String foundId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long foundId;
 
     @ManyToOne
     @JoinColumn(name = "userId")
