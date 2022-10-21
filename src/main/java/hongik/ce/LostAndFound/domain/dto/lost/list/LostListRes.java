@@ -16,10 +16,12 @@ public class LostListRes {
         this.lostId = lost.getLostId();
         this.lostTitle = lost.getTitle();
         this.userNickname = lost.getUser().getUserNickname();
+        this.hit = lost.getHit();
 
     }
 
     private Long lostId;
     private String lostTitle;
     private String userNickname;
+    private Long hit;
 }

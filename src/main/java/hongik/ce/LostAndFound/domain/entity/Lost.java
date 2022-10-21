@@ -19,7 +19,7 @@ public class Lost {
 
     @Id
     @Column(name = "lostId")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long lostId;
 
     public Lost(User user, Category category, String title, String contents, String date) {
