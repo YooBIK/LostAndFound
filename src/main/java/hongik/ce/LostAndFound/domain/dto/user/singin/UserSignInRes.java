@@ -13,10 +13,10 @@ import lombok.Setter;
 public class UserSignInRes {
 
     public UserSignInRes(User user) {
-        this.id = user.getStudentNumber();
+        this.studentNumber = user.getStudentNumber();
     }
 
-    private String id;
+    private String studentNumber;
     private String accessToken;
     private String refreshToken;
 }

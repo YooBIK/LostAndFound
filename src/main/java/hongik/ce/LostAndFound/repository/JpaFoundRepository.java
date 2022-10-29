@@ -10,4 +10,10 @@ import org.springframework.data.repository.query.Param;
 
 public interface JpaFoundRepository extends JpaRepository<Found,Long> {
 
+
+    Found findByFoundId(Long FoundId);
+
+    @Modifying
+    @Query(value = "UPDATE Found l SET l.hit = l.hit+1 WHERE l.foundId = :foundId")
+    int updateHit(@Param(value = "foundId") Long foundId);
 }

@@ -19,7 +19,7 @@ public class Found {
 
     @Id
     @Column(name = "foundId")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long foundId;
 
     public Found(User user,String title,Category category,String lost_location,String lost_detail,String store_location,String store_detail,String content,String date) {
@@ -33,6 +33,7 @@ public class Found {
         this.content = content;
         this.date = date;
     }
+
 
     @ManyToOne
     @JoinColumn(name = "userId")

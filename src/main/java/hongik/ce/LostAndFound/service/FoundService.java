@@ -4,16 +4,16 @@ import hongik.ce.LostAndFound.config.BaseException;
 import hongik.ce.LostAndFound.domain.dto.found.list.FoundListRes;
 import hongik.ce.LostAndFound.domain.dto.found.register.FoundRegisterReq;
 import hongik.ce.LostAndFound.domain.dto.found.register.FoundRegisterRes;
+import hongik.ce.LostAndFound.domain.dto.foundcomment.FoundCommentRegisterReq;
+import hongik.ce.LostAndFound.domain.dto.foundcomment.FoundCommentRegisterRes;
+import hongik.ce.LostAndFound.domain.dto.lost.list.LostListRes;
 import hongik.ce.LostAndFound.domain.dto.lost.register.LostRegisterRes;
-import hongik.ce.LostAndFound.domain.entity.Category;
-import hongik.ce.LostAndFound.domain.entity.Found;
-import hongik.ce.LostAndFound.domain.entity.Lost;
-import hongik.ce.LostAndFound.domain.entity.User;
-import hongik.ce.LostAndFound.repository.JpaCategoryRepository;
-import hongik.ce.LostAndFound.repository.JpaFoundRepository;
-import hongik.ce.LostAndFound.repository.JpaLostCommentRepository;
-import hongik.ce.LostAndFound.repository.JpaUserRepository;
+import hongik.ce.LostAndFound.domain.dto.lostcomment.LostCommentRegisterReq;
+import hongik.ce.LostAndFound.domain.dto.lostcomment.LostCommentRegisterRes;
+import hongik.ce.LostAndFound.domain.entity.*;
+import hongik.ce.LostAndFound.repository.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -27,11 +27,21 @@ import static hongik.ce.LostAndFound.config.ResponseStatus.NOT_EXIST_ACCOUNT;
 @Service
 @RequiredArgsConstructor
 @Transactional
+@Slf4j
 public class FoundService {
-    private JpaFoundRepository jpaFoundRepository;
+    private final JpaFoundRepository jpaFoundRepository;
     private final JpaUserRepository jpaUserRepository;
     private final JpaCategoryRepository jpaCategoryRepository;
-    private final JpaLostCommentRepository jpaFoundCommentRepository;
+    private final JpaFoundCommentRepository jpaFoundCommentRepository;
+
+    public List<FoundListRes> getFoundList() {
+        List<Found> list = jpaFoundRepository.findAll();
+        List<FoundListRes> result = new ArrayList<>();
+        for (Found f : list) {
+            result.add(new FoundListRes(f));
+        }
+        return result;
+    }
 
     public FoundRegisterRes registerFound(FoundRegisterReq foundRegisterReq) throws BaseException {
         Long userId = foundRegisterReq.getUserId();
@@ -66,4 +76,20 @@ public class FoundService {
 
 
 
+    public FoundCommentRegisterRes registerFoundComment(FoundCommentRegisterReq foundCommentRegisterReq) throws BaseException{
+        Long userId = foundCommentRegisterReq.getUserId();
+        Long foundId = foundCommentRegisterReq.getFoundId();
+
+        User user = jpaUserRepository.findByUserId(userId);
+        Found found = jpaFoundRepository.findByFoundId(foundId);
+        String contents =foundCommentRegisterReq.getContents();
+
+        Date now = new Date();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String date = simpleDateFormat.format(now);
+
+        FoundComment result = jpaFoundCommentRepository.save(new FoundComment(user,found,contents,date));
+
+        return new FoundCommentRegisterRes(result.getFoundCommentId());
+    }
 }
