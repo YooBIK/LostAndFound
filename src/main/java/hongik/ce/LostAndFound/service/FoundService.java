@@ -1,13 +1,17 @@
 package hongik.ce.LostAndFound.service;
 
 import hongik.ce.LostAndFound.config.BaseException;
+import hongik.ce.LostAndFound.domain.dto.found.list.DetailFoundInfoRes;
 import hongik.ce.LostAndFound.domain.dto.found.list.FoundListRes;
 import hongik.ce.LostAndFound.domain.dto.found.register.FoundRegisterReq;
 import hongik.ce.LostAndFound.domain.dto.found.register.FoundRegisterRes;
+import hongik.ce.LostAndFound.domain.dto.foundcomment.FoundCommentListRes;
 import hongik.ce.LostAndFound.domain.dto.foundcomment.FoundCommentRegisterReq;
 import hongik.ce.LostAndFound.domain.dto.foundcomment.FoundCommentRegisterRes;
+import hongik.ce.LostAndFound.domain.dto.lost.list.DetailLostInfoRes;
 import hongik.ce.LostAndFound.domain.dto.lost.list.LostListRes;
 import hongik.ce.LostAndFound.domain.dto.lost.register.LostRegisterRes;
+import hongik.ce.LostAndFound.domain.dto.lostcomment.LostCommentListRes;
 import hongik.ce.LostAndFound.domain.dto.lostcomment.LostCommentRegisterReq;
 import hongik.ce.LostAndFound.domain.dto.lostcomment.LostCommentRegisterRes;
 import hongik.ce.LostAndFound.domain.entity.*;
@@ -23,6 +27,7 @@ import java.util.Date;
 import java.util.List;
 
 import static hongik.ce.LostAndFound.config.ResponseStatus.NOT_EXIST_ACCOUNT;
+import static hongik.ce.LostAndFound.config.ResponseStatus.NOT_EXIST_LOST;
 
 @Service
 @RequiredArgsConstructor
@@ -43,6 +48,26 @@ public class FoundService {
         return result;
     }
 
+    public void updateFoundHit(Long foundId){
+        jpaFoundRepository.updateHit(foundId);
+    }
+
+    public List<FoundCommentListRes> findAllCommentsByFoundId(Long foundId) throws BaseException{
+        List<FoundComment> list;
+        Found found;
+        try{
+            found = jpaFoundRepository.findByFoundId(foundId);
+        }catch (Exception e){
+            throw new BaseException(NOT_EXIST_LOST);
+        }
+
+        list = jpaFoundCommentRepository.findByFound_FoundId(found.getFoundId());
+        List<FoundCommentListRes> result = new ArrayList<>();
+        for(FoundComment fc : list){
+            result.add(new FoundCommentListRes(fc));
+        }
+        return result;
+    }
     public FoundRegisterRes registerFound(FoundRegisterReq foundRegisterReq) throws BaseException {
         Long userId = foundRegisterReq.getUserId();
         String title = foundRegisterReq.getTitle();
@@ -75,6 +100,16 @@ public class FoundService {
     }
 
 
+
+    public DetailFoundInfoRes findByFoundId(Long foundId) throws BaseException{
+        Found found;
+        try{
+            found = jpaFoundRepository.findByFoundId(foundId);
+        }catch(Exception e){
+            throw new BaseException(NOT_EXIST_LOST);
+        }
+        return new DetailFoundInfoRes(found);
+    }
 
     public FoundCommentRegisterRes registerFoundComment(FoundCommentRegisterReq foundCommentRegisterReq) throws BaseException{
         Long userId = foundCommentRegisterReq.getUserId();

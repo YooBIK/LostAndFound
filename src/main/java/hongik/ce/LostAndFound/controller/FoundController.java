@@ -6,6 +6,7 @@ import hongik.ce.LostAndFound.domain.dto.found.list.DetailFoundInfoRes;
 import hongik.ce.LostAndFound.domain.dto.found.list.FoundListRes;
 import hongik.ce.LostAndFound.domain.dto.found.register.FoundRegisterReq;
 import hongik.ce.LostAndFound.domain.dto.found.register.FoundRegisterRes;
+import hongik.ce.LostAndFound.domain.dto.foundcomment.FoundCommentListRes;
 import hongik.ce.LostAndFound.domain.dto.foundcomment.FoundCommentRegisterReq;
 import hongik.ce.LostAndFound.domain.dto.foundcomment.FoundCommentRegisterRes;
 import hongik.ce.LostAndFound.domain.dto.lost.list.DetailLostInfoRes;
@@ -31,8 +32,6 @@ import static hongik.ce.LostAndFound.config.ResponseStatus.EMPTY_CONTENTS;
 public class FoundController {
     private final FoundService foundService;
 
-    private final LostService lostService;
-
     @GetMapping("")
     public Response<List<FoundListRes>,Object> getFoundList(){
         List<FoundListRes> list;
@@ -41,6 +40,21 @@ public class FoundController {
         return new Response<>(list);
     }
 
+    @GetMapping("/{foundId}")
+    public Response<DetailFoundInfoRes,List<FoundCommentListRes>> getFoundInfoByFoundId(@PathVariable Long foundId){
+        try{
+            foundService.updateFoundHit(foundId);
+            List<FoundCommentListRes> commentList = foundService.findAllCommentsByFoundId(foundId);
+            DetailFoundInfoRes foundInfoRes = foundService.findByFoundId(foundId);
+            if (commentList == null){
+                return new Response<>(foundInfoRes);
+            }
+            return new Response<>(foundInfoRes,commentList);
+
+        }catch(BaseException e){
+            return new Response<>(e.getResponseStatus());
+        }
+    }
 
     @PostMapping("/register")
     public Response<FoundRegisterRes,Object> registerFound(@RequestBody FoundRegisterReq foundRegisterReq){
