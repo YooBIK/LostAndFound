@@ -17,11 +17,14 @@ public class LostListRes {
         this.lostTitle = lost.getTitle();
         this.userNickname = lost.getUser().getUserNickname();
         this.hit = lost.getHit();
-
+        this.location = lost.getLocation();
+        this.date = lost.getDate();
     }
 
     private Long lostId;
     private String lostTitle;
+    private String location;
     private String userNickname;
+    private String date;
     private Long hit;
 }

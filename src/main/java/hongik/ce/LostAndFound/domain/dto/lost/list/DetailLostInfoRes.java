@@ -16,18 +16,19 @@ import lombok.Setter;
 public class DetailLostInfoRes {
     public DetailLostInfoRes(Lost lost) {
         this.userNickname = lost.getUser().getUserNickname();
-        this.category = lost.getCategory().getCategory();
         this.title = lost.getTitle();
         this.contents = lost.getContents();
         this.date = lost.getDate();
         this.hit = lost.getHit();
+        this.location = lost.getLocation();
     }
 
     private String userNickname;
-    private String category;
     private String title;
     private String contents;
     private String date;
+    private String location;
     private Long hit;
+
 
 }

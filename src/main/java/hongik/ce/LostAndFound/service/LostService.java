@@ -18,6 +18,7 @@ import hongik.ce.LostAndFound.repository.JpaLostCommentRepository;
 import hongik.ce.LostAndFound.repository.JpaLostRepository;
 import hongik.ce.LostAndFound.repository.JpaUserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +32,7 @@ import static hongik.ce.LostAndFound.config.ResponseStatus.*;
 @Service
 @Transactional
 @RequiredArgsConstructor
+@Slf4j
 public class LostService {
 
     private final JpaLostRepository jpaLostRepository;
@@ -54,7 +56,7 @@ public class LostService {
         String category = lostRegisterReq.getCategory();
         String title = lostRegisterReq.getTitle();
         String contents = lostRegisterReq.getContents();
-
+        String location = lostRegisterReq.getLocation();
         Date now = new Date();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String date = simpleDateFormat.format(now);
@@ -68,11 +70,7 @@ public class LostService {
 
         Category categoryResult = jpaCategoryRepository.findByCategory(category);
 
-        if(user==null){
-            throw new BaseException(NOT_EXIST_ACCOUNT);
-        }
-
-        Lost result = jpaLostRepository.save(new Lost(user,categoryResult,title,contents,date));
+        Lost result = jpaLostRepository.save(new Lost(user,categoryResult,title,contents,date,location));
         return new LostRegisterRes(result);
     }
 
