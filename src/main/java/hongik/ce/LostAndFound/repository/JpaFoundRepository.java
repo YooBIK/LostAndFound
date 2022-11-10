@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+
 public interface JpaFoundRepository extends JpaRepository<Found,Long> {
 
 
@@ -16,4 +18,5 @@ public interface JpaFoundRepository extends JpaRepository<Found,Long> {
     @Modifying
     @Query(value = "UPDATE Found l SET l.hit = l.hit+1 WHERE l.foundId = :foundId")
     int updateHit(@Param(value = "foundId") Long foundId);
+    List<Found> findAllByUser(User user);
 }

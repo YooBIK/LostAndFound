@@ -13,12 +13,13 @@ import javax.persistence.*;
 @Table(name = "User")
 public class User {
 
-    public User(String studentNumber, String password, String userName, String userEmail, String userNickname) {
+    public User(String studentNumber, String password, String userName, String userEmail, String userNickname,String userPhoneNumber) {
         this.studentNumber = studentNumber;
         this.password = password;
         this.userName = userName;
         this.userEmail = userEmail;
         this.userNickname = userNickname;
+        this.userPhoneNumber = userPhoneNumber;
     }
 
     @Id
@@ -38,6 +39,8 @@ public class User {
     @Column(name = "studentEmail")
     private String userEmail;
 
+    @Column(name = "phoneNumber")
+    private String userPhoneNumber;
     @Column(name = "nickname")
     private String userNickname;
 

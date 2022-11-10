@@ -22,7 +22,7 @@ public enum ResponseStatus {
     EMPTY_USER_NICKNAME(false, 2003, "별명을 입력해주세요."),
     EMPTY_PASSWORD(false, 2004, "비밀번호를 입력해주세요."),
 
-
+    EMPTY_PHONE_NUMBER(false, 2005, "휴대 전화 번호를 입력해주세요."),
 
 
     NOT_EXIST_ACCOUNT(false, 2100, "등록되지 않은 계정입니다."),
@@ -38,7 +38,7 @@ public enum ResponseStatus {
     EMPTY_CATEGORY(false,3002,"물건 종류를 선택하세요."),
     EMPTY_USER_ID(false,3003,"User ID를 입력하세요."),
 
-
+    EMPTY_LOCATION(false,3004, "위치를 입력하세요"),
     NOT_EXIST_LOST(false,3100,"게시글이 존재하지 않습니다."),
 
 

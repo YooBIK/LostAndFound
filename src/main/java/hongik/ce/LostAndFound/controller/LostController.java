@@ -65,6 +65,9 @@ public class LostController {
             if(lostRegisterReq.getContents().equals("") || lostRegisterReq.getContents() == null){
                 return new Response<>(EMPTY_CONTENTS);
             }
+            if(lostRegisterReq.getLocation().equals("") || lostRegisterReq.getLocation() == null){
+                return new Response<>(EMPTY_LOCATION);
+            }
 
             LostRegisterRes lostRegisterRes = lostService.registerLost(lostRegisterReq);
             return new Response<>(lostRegisterRes);
