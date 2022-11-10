@@ -56,6 +56,19 @@ public class FoundController {
         }
     }
 
+
+//    @GetMapping("/{foundlocation}")
+//    public Response<List<FoundBuildingListRes>> getFoundInfoByFoundId(@PathVariable String foundlocation){
+//        try{
+//            List<FoundBuildingListRes> foundBuildingList = foundService.findByFoundLocation(foundlocation);
+//
+//            return new Response<>(foundBuildingList);
+//
+//        }catch(BaseException e){
+//            return new Response<>(e.getResponseStatus());
+//        }
+//    }
+
     @PostMapping("/register")
     public Response<FoundRegisterRes,Object> registerFound(@RequestBody FoundRegisterReq foundRegisterReq){
 

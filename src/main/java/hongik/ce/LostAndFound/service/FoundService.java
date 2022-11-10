@@ -39,6 +39,34 @@ public class FoundService {
     private final JpaCategoryRepository jpaCategoryRepository;
     private final JpaFoundCommentRepository jpaFoundCommentRepository;
 
+//    public DetailFoundInfoRes getBuildingCnt() throws BaseException{
+//        long TNum = 0;
+//        long RNum = 0;
+//        long KNum = 0;
+//        long LNum = 0;
+//        long INum = 0;
+//        long ANum = 0;
+//        long BNum = 0;
+//        long CNum = 0;
+//        long DNum = 0;
+//        long Z2Num = 0;
+//        long Z3Num = 0;
+//        long LibraryNum = 0;
+//        long ArtNum = 0;
+//        long ENum = 0;
+//        long SNum = 0;
+//
+//        try{
+//            List<Found> list = jpaFoundRepository.findAll();
+//                 = jpaFoundRepository.findByLost_location(lost_location);
+//
+//        }catch(Exception e){
+//            throw new BaseException(NOT_EXIST_LOST);
+//        }
+//        return new DetailFoundInfoRes(found);
+//    }
+
+
     public List<FoundListRes> getFoundList() {
         List<Found> list = jpaFoundRepository.findAll();
         List<FoundListRes> result = new ArrayList<>();
@@ -47,6 +75,18 @@ public class FoundService {
         }
         return result;
     }
+
+
+//    public List<FoundBuildingListRes> findByFoundLocation(String foundlocation) throws BaseException{
+//        Found found;
+//        try{
+//            found = jpaFoundRepository.findByFoundId(foundId);
+//        }catch(Exception e){
+//            throw new BaseException(NOT_EXIST_LOST);
+//        }
+//        return new DetailFoundInfoRes(found);
+//    }
+
 
     public void updateFoundHit(Long foundId){
         jpaFoundRepository.updateHit(foundId);
@@ -68,6 +108,7 @@ public class FoundService {
         }
         return result;
     }
+
     public FoundRegisterRes registerFound(FoundRegisterReq foundRegisterReq) throws BaseException {
         Long userId = foundRegisterReq.getUserId();
         String title = foundRegisterReq.getTitle();
@@ -98,8 +139,6 @@ public class FoundService {
         Found result = jpaFoundRepository.save(new Found(user,title,categoryResult,lost_location,lost_detail,store_location,store_detail,content,date));
         return new FoundRegisterRes(result);
     }
-
-
 
     public DetailFoundInfoRes findByFoundId(Long foundId) throws BaseException{
         Found found;
