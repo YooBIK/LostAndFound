@@ -1,7 +1,6 @@
 package hongik.ce.LostAndFound.service;
 
 import hongik.ce.LostAndFound.config.BaseException;
-import hongik.ce.LostAndFound.config.Response;
 import hongik.ce.LostAndFound.domain.dto.lost.list.DetailLostInfoRes;
 import hongik.ce.LostAndFound.domain.dto.lost.list.LostListRes;
 import hongik.ce.LostAndFound.domain.dto.lost.register.LostRegisterReq;
@@ -49,7 +48,6 @@ public class LostService {
         }
         return result;
     }
-
 
     public LostRegisterRes registerLost(LostRegisterReq lostRegisterReq)throws BaseException {
         Long userId = lostRegisterReq.getUserId();

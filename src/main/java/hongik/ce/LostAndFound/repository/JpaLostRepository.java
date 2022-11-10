@@ -1,6 +1,5 @@
 package hongik.ce.LostAndFound.repository;
 
-import hongik.ce.LostAndFound.domain.entity.Category;
 import hongik.ce.LostAndFound.domain.entity.Lost;
 import hongik.ce.LostAndFound.domain.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -19,7 +18,5 @@ public interface JpaLostRepository extends JpaRepository<Lost,Long> {
     @Query(value = "UPDATE Lost l SET l.hit = l.hit+1 WHERE l.lostId = :lostId")
     int updateHit(@Param(value = "lostId") Long lostId);
 
-    @Query(value = "select l.location, count(l) from Lost l group by l.location")
-    List<Lost> findAllByLocation();
 
 }

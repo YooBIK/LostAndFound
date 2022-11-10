@@ -2,7 +2,6 @@ package hongik.ce.LostAndFound.controller;
 
 import hongik.ce.LostAndFound.config.BaseException;
 import hongik.ce.LostAndFound.config.Response;
-import hongik.ce.LostAndFound.config.ResponseStatus;
 import hongik.ce.LostAndFound.domain.dto.lost.list.DetailLostInfoRes;
 import hongik.ce.LostAndFound.domain.dto.lost.list.LostListRes;
 import hongik.ce.LostAndFound.domain.dto.lost.register.LostRegisterReq;
@@ -10,15 +9,11 @@ import hongik.ce.LostAndFound.domain.dto.lost.register.LostRegisterRes;
 import hongik.ce.LostAndFound.domain.dto.lostcomment.LostCommentListRes;
 import hongik.ce.LostAndFound.domain.dto.lostcomment.LostCommentRegisterReq;
 import hongik.ce.LostAndFound.domain.dto.lostcomment.LostCommentRegisterRes;
-import hongik.ce.LostAndFound.domain.dto.user.singin.UserSignInRes;
-import hongik.ce.LostAndFound.domain.entity.Lost;
-import hongik.ce.LostAndFound.domain.entity.LostComment;
 import hongik.ce.LostAndFound.service.LostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 import static hongik.ce.LostAndFound.config.ResponseStatus.*;
 
@@ -97,9 +92,6 @@ public class LostController {
             return new Response<>(e.getResponseStatus());
         }
     }
-
-
-
 
 
 }

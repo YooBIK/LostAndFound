@@ -2,6 +2,7 @@ package hongik.ce.LostAndFound.controller;
 
 import hongik.ce.LostAndFound.config.BaseException;
 import hongik.ce.LostAndFound.config.Response;
+import hongik.ce.LostAndFound.domain.dto.found.FoundListByLocationRes;
 import hongik.ce.LostAndFound.domain.dto.found.list.DetailFoundInfoRes;
 import hongik.ce.LostAndFound.domain.dto.found.list.FoundListRes;
 import hongik.ce.LostAndFound.domain.dto.found.register.FoundRegisterReq;
@@ -18,6 +19,7 @@ import hongik.ce.LostAndFound.domain.dto.lostcomment.LostCommentRegisterReq;
 import hongik.ce.LostAndFound.domain.dto.lostcomment.LostCommentRegisterRes;
 import hongik.ce.LostAndFound.service.FoundService;
 import hongik.ce.LostAndFound.service.LostService;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -56,19 +58,6 @@ public class FoundController {
         }
     }
 
-
-//    @GetMapping("/{foundlocation}")
-//    public Response<List<FoundBuildingListRes>> getFoundInfoByFoundId(@PathVariable String foundlocation){
-//        try{
-//            List<FoundBuildingListRes> foundBuildingList = foundService.findByFoundLocation(foundlocation);
-//
-//            return new Response<>(foundBuildingList);
-//
-//        }catch(BaseException e){
-//            return new Response<>(e.getResponseStatus());
-//        }
-//    }
-
     @PostMapping("/register")
     public Response<FoundRegisterRes,Object> registerFound(@RequestBody FoundRegisterReq foundRegisterReq){
 
@@ -106,5 +95,26 @@ public class FoundController {
         }catch(BaseException e){
             return new Response<>(e.getResponseStatus());
         }
+    }
+
+    @GetMapping("/location")
+    public Response<List<FoundListByLocationRes>,Object> getFoundListByLocation(){
+        try{
+            List<FoundListByLocationRes> result = foundService.countAllByLocation();
+            return new Response<>(result);
+        }catch (BaseException e){
+            return new Response<>(DATABASE_ERROR);
+        }
+    }
+
+    @GetMapping("/location/{foundLocation}")
+    public Response<List<FoundListRes>,Object> getFoundListByFoundLocation(@PathVariable String foundLocation){
+        try{
+            List<FoundListRes> result = foundService.findAllByLocation(foundLocation);
+            return new Response<>(result);
+        }catch (BaseException e){
+            return new Response<>(DATABASE_ERROR);
+        }
+
     }
 }
