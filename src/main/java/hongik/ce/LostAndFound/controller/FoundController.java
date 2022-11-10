@@ -1,11 +1,110 @@
 package hongik.ce.LostAndFound.controller;
 
+import hongik.ce.LostAndFound.config.BaseException;
+import hongik.ce.LostAndFound.config.Response;
+import hongik.ce.LostAndFound.domain.dto.found.list.DetailFoundInfoRes;
+import hongik.ce.LostAndFound.domain.dto.found.list.FoundListRes;
+import hongik.ce.LostAndFound.domain.dto.found.register.FoundRegisterReq;
+import hongik.ce.LostAndFound.domain.dto.found.register.FoundRegisterRes;
+import hongik.ce.LostAndFound.domain.dto.foundcomment.FoundCommentListRes;
+import hongik.ce.LostAndFound.domain.dto.foundcomment.FoundCommentRegisterReq;
+import hongik.ce.LostAndFound.domain.dto.foundcomment.FoundCommentRegisterRes;
+import hongik.ce.LostAndFound.domain.dto.lost.list.DetailLostInfoRes;
+import hongik.ce.LostAndFound.domain.dto.lost.list.LostListRes;
+import hongik.ce.LostAndFound.domain.dto.lost.register.LostRegisterReq;
+import hongik.ce.LostAndFound.domain.dto.lost.register.LostRegisterRes;
+import hongik.ce.LostAndFound.domain.dto.lostcomment.LostCommentListRes;
+import hongik.ce.LostAndFound.domain.dto.lostcomment.LostCommentRegisterReq;
+import hongik.ce.LostAndFound.domain.dto.lostcomment.LostCommentRegisterRes;
 import hongik.ce.LostAndFound.service.FoundService;
+import hongik.ce.LostAndFound.service.LostService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-@RestController("/found")
+import java.util.List;
+
+import static hongik.ce.LostAndFound.config.ResponseStatus.*;
+import static hongik.ce.LostAndFound.config.ResponseStatus.EMPTY_CONTENTS;
+
+@RestController
+@RequestMapping("/found")
 @RequiredArgsConstructor
 public class FoundController {
     private final FoundService foundService;
+
+    @GetMapping("")
+    public Response<List<FoundListRes>,Object> getFoundList(){
+        List<FoundListRes> list;
+
+        list = foundService.getFoundList();
+        return new Response<>(list);
+    }
+
+    @GetMapping("/{foundId}")
+    public Response<DetailFoundInfoRes,List<FoundCommentListRes>> getFoundInfoByFoundId(@PathVariable Long foundId){
+        try{
+            foundService.updateFoundHit(foundId);
+            List<FoundCommentListRes> commentList = foundService.findAllCommentsByFoundId(foundId);
+            DetailFoundInfoRes foundInfoRes = foundService.findByFoundId(foundId);
+            if (commentList == null){
+                return new Response<>(foundInfoRes);
+            }
+            return new Response<>(foundInfoRes,commentList);
+
+        }catch(BaseException e){
+            return new Response<>(e.getResponseStatus());
+        }
+    }
+
+
+//    @GetMapping("/{foundlocation}")
+//    public Response<List<FoundBuildingListRes>> getFoundInfoByFoundId(@PathVariable String foundlocation){
+//        try{
+//            List<FoundBuildingListRes> foundBuildingList = foundService.findByFoundLocation(foundlocation);
+//
+//            return new Response<>(foundBuildingList);
+//
+//        }catch(BaseException e){
+//            return new Response<>(e.getResponseStatus());
+//        }
+//    }
+
+    @PostMapping("/register")
+    public Response<FoundRegisterRes,Object> registerFound(@RequestBody FoundRegisterReq foundRegisterReq){
+
+        try{
+            if(foundRegisterReq.getCategory().equals("") || foundRegisterReq.getCategory() == null){
+                return new Response<>(EMPTY_CATEGORY);
+            }
+            if(foundRegisterReq.getTitle().equals("") || foundRegisterReq.getTitle() == null) {
+                return new Response<>(EMPTY_TITLE);
+            }
+            if(foundRegisterReq.getContent().equals("") || foundRegisterReq.getContent() == null){
+                return new Response<>(EMPTY_CONTENTS);
+            }
+            FoundRegisterRes foundRegisterRes = foundService.registerFound(foundRegisterReq);
+            return new Response<>(foundRegisterRes);
+
+        }catch(BaseException e){
+            return new Response<>(e.getResponseStatus());
+        }
+    }
+
+
+    @PostMapping("/comment")
+    public Response<FoundCommentRegisterRes,Object> registerFoundComment(@RequestBody FoundCommentRegisterReq foundCommentRegisterReq){
+        try {
+            if(foundCommentRegisterReq.getUserId() == null){
+                return new Response<>(EMPTY_USER_ID);
+            }
+            if(foundCommentRegisterReq.getFoundId() == null){
+                return new Response<>(EMPTY_USER_ID);
+            }
+
+            FoundCommentRegisterRes foundCommentRegisterRes = foundService.registerFoundComment(foundCommentRegisterReq);
+            return new Response<>(foundCommentRegisterRes);
+        }catch(BaseException e){
+            return new Response<>(e.getResponseStatus());
+        }
+    }
 }
