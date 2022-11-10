@@ -21,31 +21,47 @@ public class Found {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long foundId;
 
+    public Found(User user,String title,Category category,String lost_location,String lost_detail,String store_location,String store_detail,String content,String date) {
+        this.user = user;
+        this.category = category;
+        this.title = title;
+        this.lost_location = lost_location;
+        this.lost_detail = lost_detail;
+        this.store_location = store_location;
+        this.store_detail = store_detail;
+        this.content = content;
+        this.date = date;
+    }
+
+
     @ManyToOne
     @JoinColumn(name = "userId")
     private User user;
+
+    @Column(name = "title")
+    private String title;
 
     @ManyToOne
     @JoinColumn(name = "category")
     private Category category;
 
-    @Column(name = "findLocation")
-    private String findLocation;
+    @Column(name = "lost_location")
+    private String lost_location;
 
-    @Column(name = "storeLocation")
-    private String storeLocation;
+    @Column(name = "lost_detail")
+    private String lost_detail;
 
-    @Column(name = "detailLocation")
-    private String detailLocation;
+    @Column(name = "store_location")
+    private String store_location;
 
-    @Column(name = "imagePath")
-    private String imagePath;
+    @Column(name = "store_detail")
+    private String store_detail;
 
-    @Column(name = "title")
-    private String title;
+//    @Column(name = "imagePath")
+//    private String imagePath;
 
-    @Column(name = "contents")
-    private String contents;
+    @Column(name = "content")
+    private String content;
 
     @Column(name = "date")
     private String date;

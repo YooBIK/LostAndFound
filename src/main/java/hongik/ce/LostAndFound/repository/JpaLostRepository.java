@@ -19,4 +19,7 @@ public interface JpaLostRepository extends JpaRepository<Lost,Long> {
     @Query(value = "UPDATE Lost l SET l.hit = l.hit+1 WHERE l.lostId = :lostId")
     int updateHit(@Param(value = "lostId") Long lostId);
 
+    @Query(value = "select l.location, count(l) from Lost l group by l.location")
+    List<Lost> findAllByLocation();
+
 }
