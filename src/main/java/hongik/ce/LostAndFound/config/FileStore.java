@@ -21,30 +21,22 @@ public class FileStore {
     private final String fileDir = rootPath + "/img/";
 
     public String getFullPath(String filename) {
-        System.out.println(fileDir + filename);
         return fileDir + filename;
     }
 
     public UploadFile storeFile(MultipartFile multipartFile) throws IOException {
-        System.out.println(0);
-        System.out.println(multipartFile.isEmpty());
+
         if(multipartFile.isEmpty()) {
             return null;
         }
-        System.out.println(1);
-        System.out.println(multipartFile.getOriginalFilename());
         String originalFilename = multipartFile.getOriginalFilename();
         // 작성자가 업로드한 파일명 -> 서버 내부에서 관리하는 파일명
         // ( 파일명을 중복되지 않게끔 UUID로 정하고 ".확장자"는 그대로 )
-        System.out.println(2);
-        System.out.println(UUID.randomUUID().toString() + "." + extractExt(originalFilename));
         String storeFilename = UUID.randomUUID().toString() + "." + extractExt(originalFilename);
 
         // 파일을 저장하는 부분 -> 파일경로 + storeFilename 에 저장
-        System.out.println(3);
         multipartFile.transferTo(new File(getFullPath(storeFilename)));
 
-        System.out.println(4);
         return new UploadFile(originalFilename, storeFilename);
 
     }
