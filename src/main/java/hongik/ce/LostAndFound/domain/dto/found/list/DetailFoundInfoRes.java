@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.core.io.UrlResource;
+
+import java.net.URL;
 
 @Getter
 @Setter
@@ -22,8 +25,9 @@ public class DetailFoundInfoRes {
     private String store_location;
     private String store_detail;
     private Long hit;
+    private URL url;
     
-    public DetailFoundInfoRes(Found found) {
+    public DetailFoundInfoRes(Found found, UrlResource urlResource) {
         this.userNickname = found.getUser().getUserNickname();
         this.category = found.getCategory().getCategory();
         this.title = found.getTitle();
@@ -34,6 +38,7 @@ public class DetailFoundInfoRes {
         this.content = found.getContent();
         this.date = found.getDate();
         this.hit = found.getHit();
+        this.url = urlResource.getURL();
     }
 
 }

@@ -1,9 +1,11 @@
 package hongik.ce.LostAndFound.domain.dto.found.register;
 
+import hongik.ce.LostAndFound.domain.entity.UploadFile;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -19,4 +21,5 @@ public class FoundRegisterReq {
     private String store_location;
     private String store_detail;
     private String content;
+    private MultipartFile imagefile;
 }

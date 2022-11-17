@@ -1,6 +1,7 @@
 package hongik.ce.LostAndFound.service;
 
 import hongik.ce.LostAndFound.config.BaseException;
+import hongik.ce.LostAndFound.config.FileStore;
 import hongik.ce.LostAndFound.domain.dto.found.list.DetailFoundInfoRes;
 import hongik.ce.LostAndFound.domain.dto.found.list.FoundListRes;
 import hongik.ce.LostAndFound.domain.dto.found.register.FoundRegisterReq;
@@ -18,9 +19,13 @@ import hongik.ce.LostAndFound.domain.entity.*;
 import hongik.ce.LostAndFound.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.util.UriUtils;
 
 import javax.transaction.Transactional;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -39,34 +44,6 @@ public class FoundService {
     private final JpaCategoryRepository jpaCategoryRepository;
     private final JpaFoundCommentRepository jpaFoundCommentRepository;
 
-//    public DetailFoundInfoRes getBuildingCnt() throws BaseException{
-//        long TNum = 0;
-//        long RNum = 0;
-//        long KNum = 0;
-//        long LNum = 0;
-//        long INum = 0;
-//        long ANum = 0;
-//        long BNum = 0;
-//        long CNum = 0;
-//        long DNum = 0;
-//        long Z2Num = 0;
-//        long Z3Num = 0;
-//        long LibraryNum = 0;
-//        long ArtNum = 0;
-//        long ENum = 0;
-//        long SNum = 0;
-//
-//        try{
-//            List<Found> list = jpaFoundRepository.findAll();
-//                 = jpaFoundRepository.findByLost_location(lost_location);
-//
-//        }catch(Exception e){
-//            throw new BaseException(NOT_EXIST_LOST);
-//        }
-//        return new DetailFoundInfoRes(found);
-//    }
-
-
     public List<FoundListRes> getFoundList() {
         List<Found> list = jpaFoundRepository.findAll();
         List<FoundListRes> result = new ArrayList<>();
@@ -75,18 +52,6 @@ public class FoundService {
         }
         return result;
     }
-
-
-//    public List<FoundBuildingListRes> findByFoundLocation(String foundlocation) throws BaseException{
-//        Found found;
-//        try{
-//            found = jpaFoundRepository.findByFoundId(foundId);
-//        }catch(Exception e){
-//            throw new BaseException(NOT_EXIST_LOST);
-//        }
-//        return new DetailFoundInfoRes(found);
-//    }
-
 
     public void updateFoundHit(Long foundId){
         jpaFoundRepository.updateHit(foundId);
@@ -118,6 +83,20 @@ public class FoundService {
         String store_location = foundRegisterReq.getStore_location();
         String store_detail = foundRegisterReq.getStore_detail();
         String content = foundRegisterReq.getContent();
+        MultipartFile multipartFile = foundRegisterReq.getImagefile();
+        log.info("title = {}",title);
+        log.info("multipartFile = {}",multipartFile);
+        FileStore fileStore = new FileStore();
+        UploadFile imageFile;
+        System.out.println("here2 ????????");
+        try{
+            System.out.println("here3 ????????");
+            imageFile = fileStore.storeFile(multipartFile);
+            System.out.println("here4 ????????");
+        }catch(Exception e){
+            throw new BaseException(NOT_EXIST_ACCOUNT);
+        }
+
 
         Date now = new Date();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -136,18 +115,32 @@ public class FoundService {
             throw new BaseException(NOT_EXIST_ACCOUNT);
         }
 
-        Found result = jpaFoundRepository.save(new Found(user,title,categoryResult,lost_location,lost_detail,store_location,store_detail,content,date));
+        Found result = jpaFoundRepository.save(new Found(user,title,categoryResult,lost_location,lost_detail,store_location,store_detail,content,imageFile,date));
         return new FoundRegisterRes(result);
     }
 
     public DetailFoundInfoRes findByFoundId(Long foundId) throws BaseException{
         Found found;
+        UrlResource urlResource;
         try{
             found = jpaFoundRepository.findByFoundId(foundId);
-        }catch(Exception e){
+
+            String storeFilename = found.getImageFile().getStoreFilename();
+            String uploadFilename = found.getImageFile().getUploadFilename();
+
+            FileStore fileStore = new FileStore();
+
+            urlResource = new UrlResource("file:" + fileStore.getFullPath(storeFilename));
+
+            // 업로드 한 파일명이 한글인 경우 아래 작업을 안해주면 한글이 깨질 수 있음
+            String encodedUploadFileName = UriUtils.encode(uploadFilename, StandardCharsets.UTF_8);
+            String contentDisposition = "attachment; filename=\"" + encodedUploadFileName + "\"";
+
+        }catch(Exception e) {
             throw new BaseException(NOT_EXIST_LOST);
         }
-        return new DetailFoundInfoRes(found);
+        System.out.println(urlResource.toString());
+        return new DetailFoundInfoRes(found,urlResource);
     }
 
     public FoundCommentRegisterRes registerFoundComment(FoundCommentRegisterReq foundCommentRegisterReq) throws BaseException{
