@@ -26,7 +26,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static hongik.ce.LostAndFound.config.ResponseStatus.*;
+import static hongik.ce.LostAndFound.config.ResponseStatus.NOT_EXIST_ACCOUNT;
+import static hongik.ce.LostAndFound.config.ResponseStatus.NOT_EXIST_LOST;
 
 @Service
 @Transactional
@@ -40,16 +41,16 @@ public class LostService {
     private final JpaLostCommentRepository jpaLostCommentRepository;
 
 
-    public List<LostListRes> getLostList(){
+    public List<LostListRes> getLostList() {
         List<Lost> list = jpaLostRepository.findAll();
         List<LostListRes> result = new ArrayList<>();
-        for( Lost l : list){
+        for (Lost l : list) {
             result.add(new LostListRes(l));
         }
         return result;
     }
 
-    public LostRegisterRes registerLost(LostRegisterReq lostRegisterReq)throws BaseException {
+    public LostRegisterRes registerLost(LostRegisterReq lostRegisterReq) throws BaseException {
         Long userId = lostRegisterReq.getUserId();
         String category = lostRegisterReq.getCategory();
         String title = lostRegisterReq.getTitle();
@@ -60,50 +61,50 @@ public class LostService {
         String date = simpleDateFormat.format(now);
 
         User user;
-        try{
+        try {
             user = jpaUserRepository.findByUserId(userId);
-        }catch(Exception e){
+        } catch (Exception e) {
             throw new BaseException(NOT_EXIST_ACCOUNT);
         }
 
         Category categoryResult = jpaCategoryRepository.findByCategory(category);
 
-        Lost result = jpaLostRepository.save(new Lost(user,categoryResult,title,contents,date,location));
+        Lost result = jpaLostRepository.save(new Lost(user, categoryResult, title, contents, date, location));
         return new LostRegisterRes(result);
     }
 
-    public DetailLostInfoRes findByLostId(Long lostId) throws BaseException{
+    public DetailLostInfoRes findByLostId(Long lostId) throws BaseException {
         Lost lost;
-        try{
+        try {
             lost = jpaLostRepository.findByLostId(lostId);
-        }catch(Exception e){
+        } catch (Exception e) {
             throw new BaseException(NOT_EXIST_LOST);
         }
         return new DetailLostInfoRes(lost);
     }
 
-    public void updateLostHit(Long lostId){
+    public void updateLostHit(Long lostId) {
         jpaLostRepository.updateHit(lostId);
     }
 
-    public List<LostCommentListRes> findAllCommentsByLostId(Long lostId) throws BaseException{
+    public List<LostCommentListRes> findAllCommentsByLostId(Long lostId) throws BaseException {
         List<LostComment> list;
         Lost lost;
-        try{
+        try {
             lost = jpaLostRepository.findByLostId(lostId);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new BaseException(NOT_EXIST_LOST);
         }
 
         list = jpaLostCommentRepository.findByLost_LostId(lost.getLostId());
         List<LostCommentListRes> result = new ArrayList<>();
-        for(LostComment lc : list){
+        for (LostComment lc : list) {
             result.add(new LostCommentListRes(lc));
         }
         return result;
     }
 
-    public LostCommentRegisterRes registerLostComment(LostCommentRegisterReq lostCommentRegisterReq) throws BaseException{
+    public LostCommentRegisterRes registerLostComment(LostCommentRegisterReq lostCommentRegisterReq) throws BaseException {
         Long userId = lostCommentRegisterReq.getUserId();
         Long lostId = lostCommentRegisterReq.getLostId();
 
@@ -115,7 +116,7 @@ public class LostService {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String date = simpleDateFormat.format(now);
 
-        LostComment lostComment = new LostComment(user,lost,contents,date);
+        LostComment lostComment = new LostComment(user, lost, contents, date);
         LostComment result = jpaLostCommentRepository.save(lostComment);
 
         return new LostCommentRegisterRes(result.getLostCommentId());
