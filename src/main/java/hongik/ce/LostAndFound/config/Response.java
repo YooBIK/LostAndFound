@@ -1,16 +1,17 @@
 package hongik.ce.LostAndFound.config;
 
-import static hongik.ce.LostAndFound.config.ResponseStatus.SUCCESS;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import static hongik.ce.LostAndFound.config.ResponseStatus.SUCCESS;
+
 @Getter
 @AllArgsConstructor
-@JsonPropertyOrder({"isSuccess", "code", "message","result"})
-public class Response<T,C> {
+@JsonPropertyOrder({"isSuccess", "code", "message", "result"})
+public class Response<T, C> {
 
     @JsonProperty("isSuccess")
     private final Boolean isSuccess;
@@ -22,7 +23,7 @@ public class Response<T,C> {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private C comments;
 
-//     요청에 성공한 경우
+    //     요청에 성공한 경우
     public Response(T result) {
         this.isSuccess = SUCCESS.isSuccess();
         this.message = SUCCESS.getMessage();
@@ -30,7 +31,7 @@ public class Response<T,C> {
         this.result = result;
     }
 
-    public Response(T result,C comments){
+    public Response(T result, C comments) {
         this.isSuccess = SUCCESS.isSuccess();
         this.message = SUCCESS.getMessage();
         this.code = SUCCESS.getCode();

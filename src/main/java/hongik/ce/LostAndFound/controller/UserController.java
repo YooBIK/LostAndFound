@@ -25,58 +25,63 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping(value = "/sign-up")
-    public Response<UserSignUpRes,Object> signUpUser(@RequestBody UserSignUpReq userSignUpReq){
+    public Response<UserSignUpRes, Object> signUpUser(@RequestBody UserSignUpReq userSignUpReq) {
 
-        try{
-            if(userSignUpReq.getStudentNumber().equals("") || userSignUpReq.getStudentNumber() == null){
+        try {
+            if (userSignUpReq.getStudentNumber().equals("") || userSignUpReq.getStudentNumber() == null) {
                 return new Response<>(EMPTY_STUDENT_NUMBER);
-            }if(userSignUpReq.getUserName().equals("") || userSignUpReq.getUserName() == null){
+            }
+            if (userSignUpReq.getUserName().equals("") || userSignUpReq.getUserName() == null) {
                 return new Response<>(EMPTY_USER_NAME);
-            }if(userSignUpReq.getUserEmail().equals("") || userSignUpReq.getUserEmail() == null){
+            }
+            if (userSignUpReq.getUserEmail().equals("") || userSignUpReq.getUserEmail() == null) {
                 return new Response<>(EMPTY_USER_EMAIL);
-            }if(userSignUpReq.getUserNickname().equals("") || userSignUpReq.getUserNickname() == null){
+            }
+            if (userSignUpReq.getUserNickname().equals("") || userSignUpReq.getUserNickname() == null) {
                 return new Response<>(EMPTY_USER_NICKNAME);
-            }if(userSignUpReq.getPhoneNumber().equals("") || userSignUpReq.getPhoneNumber() == null){
+            }
+            if (userSignUpReq.getPhoneNumber().equals("") || userSignUpReq.getPhoneNumber() == null) {
                 return new Response<>(EMPTY_PHONE_NUMBER);
 
-            }if(userSignUpReq.getPassword().equals("") || userSignUpReq.getPassword() == null){
+            }
+            if (userSignUpReq.getPassword().equals("") || userSignUpReq.getPassword() == null) {
                 return new Response<>(EMPTY_PASSWORD);
             }
 
             UserSignUpRes userSignUpRes = userService.signUpUser(userSignUpReq);
             return new Response<>(userSignUpRes);
 
-        }catch(BaseException e){
+        } catch (BaseException e) {
             return new Response<>(e.getResponseStatus());
         }
     }
 
     @PostMapping(value = "/sign-in")
-    public Response<UserSignInRes, Object> signInUser(@RequestBody UserSignInReq userSignInReq){
+    public Response<UserSignInRes, Object> signInUser(@RequestBody UserSignInReq userSignInReq) {
 
-        try{
-            if(userSignInReq.getStudentNumber().equals("") || userSignInReq.getStudentNumber() == null){
+        try {
+            if (userSignInReq.getStudentNumber().equals("") || userSignInReq.getStudentNumber() == null) {
                 return new Response<>(EMPTY_STUDENT_NUMBER);
             }
 
-            if(userSignInReq.getPassword().equals("")|| userSignInReq.getPassword()==null ){
+            if (userSignInReq.getPassword().equals("") || userSignInReq.getPassword() == null) {
                 return new Response<>(EMPTY_PASSWORD);
             }
 
             UserSignInRes userSignInRes = userService.signInUser(userSignInReq);
             return new Response<>(userSignInRes);
 
-        }catch(BaseException e){
+        } catch (BaseException e) {
             return new Response<>(e.getResponseStatus());
         }
     }
 
     @GetMapping("/mypage/info/{userId}")
-    public Response<UserInfoRes,Object> getUserInfo(@PathVariable Long userId){
+    public Response<UserInfoRes, Object> getUserInfo(@PathVariable Long userId) {
         UserInfoRes userInfoRes;
-        try{
+        try {
             userInfoRes = userService.getUserInfo(userId);
-        }catch (BaseException e){
+        } catch (BaseException e) {
             return new Response<>(e.getResponseStatus());
         }
 
@@ -84,20 +89,18 @@ public class UserController {
     }
 
     @GetMapping("/mypage/content-info/{userId}")
-    public Response<List<UserContentListRes>,List<UserContentListRes>> getUserContent(@PathVariable Long userId){
+    public Response<List<UserContentListRes>, List<UserContentListRes>> getUserContent(@PathVariable Long userId) {
         List<UserContentListRes> lostList = new ArrayList<>();
         List<UserContentListRes> foundList = new ArrayList<>();
-        try{
+        try {
             lostList = userService.getUserLostList(userId);
             foundList = userService.getUserFoundList(userId);
-        }catch (BaseException e){
+        } catch (BaseException e) {
             return new Response<>(e.getResponseStatus());
         }
-        return new Response<>(lostList,foundList);
+        return new Response<>(lostList, foundList);
 
     }
-
-
 
 
 }
