@@ -22,6 +22,7 @@ import hongik.ce.LostAndFound.service.LostService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -59,7 +60,7 @@ public class FoundController {
     }
 
     @PostMapping("/register")
-    public Response<FoundRegisterRes,Object> registerFound(@RequestBody FoundRegisterReq foundRegisterReq){
+    public Response<FoundRegisterRes,Object> registerFound(FoundRegisterReq foundRegisterReq) {
 
         try{
             if(foundRegisterReq.getCategory().equals("") || foundRegisterReq.getCategory() == null){
@@ -71,6 +72,7 @@ public class FoundController {
             if(foundRegisterReq.getContent().equals("") || foundRegisterReq.getContent() == null){
                 return new Response<>(EMPTY_CONTENTS);
             }
+            System.out.println("here ????????");
             FoundRegisterRes foundRegisterRes = foundService.registerFound(foundRegisterReq);
             return new Response<>(foundRegisterRes);
 
