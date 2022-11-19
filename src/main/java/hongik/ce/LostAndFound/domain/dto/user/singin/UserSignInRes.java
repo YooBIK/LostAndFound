@@ -14,9 +14,9 @@ public class UserSignInRes {
 
     public UserSignInRes(User user) {
         this.studentNumber = user.getStudentNumber();
+        this.userId = user.getUserId();
     }
 
     private String studentNumber;
-    private String accessToken;
-    private String refreshToken;
+    private Long userId;
 }
