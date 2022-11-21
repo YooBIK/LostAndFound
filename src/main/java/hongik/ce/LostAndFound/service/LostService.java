@@ -44,8 +44,10 @@ public class LostService {
     public List<LostListRes> getLostList() {
         List<Lost> list = jpaLostRepository.findAll();
         List<LostListRes> result = new ArrayList<>();
-        for (Lost l : list) {
-            result.add(new LostListRes(l));
+        if(!list.isEmpty()){
+            for (Lost l : list) {
+                result.add(new LostListRes(l));
+            }
         }
         return result;
     }

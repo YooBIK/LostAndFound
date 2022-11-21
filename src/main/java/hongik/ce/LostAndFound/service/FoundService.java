@@ -45,8 +45,10 @@ public class FoundService {
     public List<FoundListRes> getFoundList() {
         List<Found> list = jpaFoundRepository.findAll();
         List<FoundListRes> result = new ArrayList<>();
-        for (Found f : list) {
-            result.add(new FoundListRes(f));
+        if(!list.isEmpty()){
+            for (Found f : list) {
+                result.add(new FoundListRes(f));
+            }
         }
         return result;
     }
