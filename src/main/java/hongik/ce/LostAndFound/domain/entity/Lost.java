@@ -22,9 +22,8 @@ public class Lost {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long lostId;
 
-    public Lost(User user, Category category, String title, String contents, String date,String location) {
+    public Lost(User user, String title, String contents, String date,String location) {
         this.user = user;
-        this.category = category;
         this.title = title;
         this.contents = contents;
         this.date = date;
@@ -35,9 +34,6 @@ public class Lost {
     @JoinColumn(name = "userId")
     private User user;
 
-    @ManyToOne
-    @JoinColumn(name = "category")
-    private Category category;
 
     @Column(name = "title")
     private String title;

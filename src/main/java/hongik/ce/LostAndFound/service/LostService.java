@@ -54,7 +54,6 @@ public class LostService {
 
     public LostRegisterRes registerLost(LostRegisterReq lostRegisterReq) throws BaseException {
         Long userId = lostRegisterReq.getUserId();
-        String category = lostRegisterReq.getCategory();
         String title = lostRegisterReq.getTitle();
         String contents = lostRegisterReq.getContents();
         String location = lostRegisterReq.getLocation();
@@ -69,9 +68,7 @@ public class LostService {
             throw new BaseException(NOT_EXIST_ACCOUNT);
         }
 
-        Category categoryResult = jpaCategoryRepository.findByCategory(category);
-
-        Lost result = jpaLostRepository.save(new Lost(user, categoryResult, title, contents, date, location));
+        Lost result = jpaLostRepository.save(new Lost(user, title, contents, date, location));
         return new LostRegisterRes(result);
     }
 

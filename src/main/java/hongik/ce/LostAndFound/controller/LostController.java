@@ -48,12 +48,8 @@ public class LostController {
     public Response<LostRegisterRes, Object> registerLost(@RequestBody LostRegisterReq lostRegisterReq) {
 
         try {
-            if (lostRegisterReq.getUserId().equals("") || lostRegisterReq.getUserId() == null) {
+            if (lostRegisterReq.getUserId() == null) {
                 return new Response<>(EMPTY_USER_ID);
-
-            }
-            if (lostRegisterReq.getCategory().equals("") || lostRegisterReq.getCategory() == null) {
-                return new Response<>(EMPTY_CATEGORY);
             }
             if (lostRegisterReq.getTitle().equals("") || lostRegisterReq.getTitle() == null) {
                 return new Response<>(EMPTY_TITLE);
