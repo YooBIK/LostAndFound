@@ -65,7 +65,6 @@ public class FoundController {
             if (foundRegisterReq.getContent().equals("") || foundRegisterReq.getContent() == null) {
                 return new Response<>(EMPTY_CONTENTS);
             }
-            System.out.println("here ????????");
             FoundRegisterRes foundRegisterRes = foundService.registerFound(foundRegisterReq);
             return new Response<>(foundRegisterRes);
 

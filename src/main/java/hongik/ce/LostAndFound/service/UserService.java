@@ -59,7 +59,6 @@ public class UserService {
         String studentNumber = userSignInReq.getStudentNumber();
         String password = userSignInReq.getPassword();
 
-
         if (!jpaUserRepository.existsByStudentNumber(studentNumber)) {
             throw new BaseException(NOT_EXIST_ACCOUNT);
         }
@@ -89,7 +88,7 @@ public class UserService {
     }
 
     public List<UserContentListRes> getUserLostList(Long userId) throws BaseException {
-        List<Lost> lostList = new ArrayList<>();
+        List<Lost> lostList;
         User findUser;
         try {
             findUser = jpaUserRepository.findByUserId(userId);

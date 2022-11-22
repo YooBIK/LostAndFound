@@ -18,7 +18,6 @@ import javax.persistence.ManyToOne;
 public class LostRegisterReq {
 
     private Long userId;
-    private String category;
     private String location;
     private String title;
     private String contents;

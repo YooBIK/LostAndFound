@@ -30,8 +30,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static hongik.ce.LostAndFound.config.ResponseStatus.NOT_EXIST_ACCOUNT;
-import static hongik.ce.LostAndFound.config.ResponseStatus.NOT_EXIST_LOST;
+import static hongik.ce.LostAndFound.config.ResponseStatus.*;
 
 @Service
 @RequiredArgsConstructor
@@ -104,13 +103,11 @@ public class FoundService {
         log.info("multipartFile = {}", multipartFile);
         FileStore fileStore = new FileStore();
         UploadFile imageFile;
-        System.out.println("here2 ????????");
+
         try {
-            System.out.println("here3 ????????");
             imageFile = fileStore.storeFile(multipartFile);
-            System.out.println("here4 ????????");
         } catch (Exception e) {
-            throw new BaseException(NOT_EXIST_ACCOUNT);
+            throw new BaseException(CANNOT_STORE_FILE);
         }
 
 

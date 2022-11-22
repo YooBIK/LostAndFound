@@ -32,9 +32,7 @@ public class FileStore {
 
         // 파일을 저장하는 부분 -> 파일경로 + storeFilename 에 저장
         multipartFile.transferTo(new File(getFullPath(storeFilename)));
-
         return new UploadFile(originalFilename, storeFilename);
-
     }
 
     // 확장자 추출

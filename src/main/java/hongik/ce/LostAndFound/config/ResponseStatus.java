@@ -38,6 +38,7 @@ public enum ResponseStatus {
 
     EMPTY_LOCATION(false, 3004, "위치를 입력하세요"),
     NOT_EXIST_LOST(false, 3100, "게시글이 존재하지 않습니다."),
+    CANNOT_STORE_FILE(false,3101, "파일 저장에 실패했습니다."),
 
 
     /*
