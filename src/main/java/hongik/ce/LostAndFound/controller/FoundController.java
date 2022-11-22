@@ -4,6 +4,7 @@ import hongik.ce.LostAndFound.config.BaseException;
 import hongik.ce.LostAndFound.config.Response;
 import hongik.ce.LostAndFound.domain.dto.found.FoundListByLocationRes;
 import hongik.ce.LostAndFound.domain.dto.found.list.DetailFoundInfoRes;
+import hongik.ce.LostAndFound.domain.dto.found.list.FoundListPhoto;
 import hongik.ce.LostAndFound.domain.dto.found.list.FoundListRes;
 import hongik.ce.LostAndFound.domain.dto.found.register.FoundRegisterReq;
 import hongik.ce.LostAndFound.domain.dto.found.register.FoundRegisterRes;
@@ -25,11 +26,14 @@ public class FoundController {
     private final FoundService foundService;
 
     @GetMapping("")
-    public Response<List<FoundListRes>, Object> getFoundList() {
-        List<FoundListRes> list;
+    public Response<List<FoundListPhoto>, Object> getFoundList() {
+        try{    List<FoundListPhoto> list;
 
-        list = foundService.getFoundList();
-        return new Response<>(list);
+            list = foundService.getFoundList();
+            return new Response<>(list);
+        } catch (BaseException e) {
+            return new Response<>(e.getResponseStatus());
+        }
     }
 
     @GetMapping("/{foundId}")

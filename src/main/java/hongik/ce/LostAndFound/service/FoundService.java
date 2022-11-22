@@ -4,6 +4,7 @@ import hongik.ce.LostAndFound.config.BaseException;
 import hongik.ce.LostAndFound.config.FileStore;
 import hongik.ce.LostAndFound.domain.dto.found.FoundListByLocationRes;
 import hongik.ce.LostAndFound.domain.dto.found.list.DetailFoundInfoRes;
+import hongik.ce.LostAndFound.domain.dto.found.list.FoundListPhoto;
 import hongik.ce.LostAndFound.domain.dto.found.list.FoundListRes;
 import hongik.ce.LostAndFound.domain.dto.found.register.FoundRegisterReq;
 import hongik.ce.LostAndFound.domain.dto.found.register.FoundRegisterRes;
@@ -42,11 +43,28 @@ public class FoundService {
     private final JpaCategoryRepository jpaCategoryRepository;
     private final JpaFoundCommentRepository jpaFoundCommentRepository;
 
-    public List<FoundListRes> getFoundList() {
+    public List<FoundListPhoto> getFoundList()  throws BaseException{
         List<Found> list = jpaFoundRepository.findAll();
-        List<FoundListRes> result = new ArrayList<>();
+        List<FoundListPhoto> result = new ArrayList<>();
+
         for (Found f : list) {
-            result.add(new FoundListRes(f));
+            try{
+            Found found;
+            UrlResource urlResource;
+            found = jpaFoundRepository.findByFoundId(f.getFoundId());
+
+            String storeFilename = found.getImageFile().getStoreFilename();
+            String uploadFilename = found.getImageFile().getUploadFilename();
+
+            FileStore fileStore = new FileStore();
+
+            urlResource = new UrlResource("file:" + fileStore.getFullPath(storeFilename));
+
+            result.add(new FoundListPhoto(f,urlResource));
+
+            } catch (Exception e) {
+                throw new BaseException(NOT_EXIST_LOST);
+            }
         }
         return result;
     }
