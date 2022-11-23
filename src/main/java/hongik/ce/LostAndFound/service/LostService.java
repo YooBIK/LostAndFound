@@ -1,6 +1,7 @@
 package hongik.ce.LostAndFound.service;
 
 import hongik.ce.LostAndFound.config.BaseException;
+import hongik.ce.LostAndFound.domain.dto.lost.LostListByLocationRes;
 import hongik.ce.LostAndFound.domain.dto.lost.list.DetailLostInfoRes;
 import hongik.ce.LostAndFound.domain.dto.lost.list.LostListRes;
 import hongik.ce.LostAndFound.domain.dto.lost.register.LostRegisterReq;
@@ -8,7 +9,6 @@ import hongik.ce.LostAndFound.domain.dto.lost.register.LostRegisterRes;
 import hongik.ce.LostAndFound.domain.dto.lostcomment.LostCommentListRes;
 import hongik.ce.LostAndFound.domain.dto.lostcomment.LostCommentRegisterReq;
 import hongik.ce.LostAndFound.domain.dto.lostcomment.LostCommentRegisterRes;
-import hongik.ce.LostAndFound.domain.entity.Category;
 import hongik.ce.LostAndFound.domain.entity.Lost;
 import hongik.ce.LostAndFound.domain.entity.LostComment;
 import hongik.ce.LostAndFound.domain.entity.User;
@@ -44,7 +44,7 @@ public class LostService {
     public List<LostListRes> getLostList() {
         List<Lost> list = jpaLostRepository.findAll();
         List<LostListRes> result = new ArrayList<>();
-        if(!list.isEmpty()){
+        if (!list.isEmpty()) {
             for (Lost l : list) {
                 result.add(new LostListRes(l));
             }
@@ -119,5 +119,18 @@ public class LostService {
         LostComment result = jpaLostCommentRepository.save(lostComment);
 
         return new LostCommentRegisterRes(result.getLostCommentId());
+    }
+
+    public List<LostListByLocationRes> countAllByLocation() throws BaseException {
+        return jpaLostRepository.countAllByLocation();
+    }
+
+    public List<LostListRes> findAllByLocation(String location) throws BaseException {
+        List<Lost> list = jpaLostRepository.findAllByLostLocation(location);
+        List<LostListRes> result = new ArrayList<>();
+        for (Lost l : list) {
+            result.add(new LostListRes(l));
+        }
+        return result;
     }
 }

@@ -12,7 +12,6 @@ import hongik.ce.LostAndFound.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static hongik.ce.LostAndFound.config.ResponseStatus.*;
@@ -90,8 +89,8 @@ public class UserController {
 
     @GetMapping("/mypage/content-info/{userId}")
     public Response<List<UserContentListRes>, List<UserContentListRes>> getUserContent(@PathVariable Long userId) {
-        List<UserContentListRes> lostList = new ArrayList<>();
-        List<UserContentListRes> foundList = new ArrayList<>();
+        List<UserContentListRes> lostList;
+        List<UserContentListRes> foundList;
         try {
             lostList = userService.getUserLostList(userId);
             foundList = userService.getUserFoundList(userId);
@@ -99,7 +98,6 @@ public class UserController {
             return new Response<>(e.getResponseStatus());
         }
         return new Response<>(lostList, foundList);
-
     }
 
 

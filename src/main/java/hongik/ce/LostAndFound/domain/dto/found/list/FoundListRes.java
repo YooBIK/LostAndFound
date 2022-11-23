@@ -15,6 +15,8 @@ public class FoundListRes {
     private String title;
     private String location;
     private String userNickname;
+
+    private String date;
     private Long viewNum;
 
     public FoundListRes(Found found) {
@@ -22,6 +24,7 @@ public class FoundListRes {
         this.title = found.getTitle();
         this.location = found.getLost_location();
         this.userNickname = found.getUser().getUserNickname();
+        this.date = found.getDate();
         this.viewNum = found.getHit();
 
     }

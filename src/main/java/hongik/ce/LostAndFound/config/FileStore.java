@@ -12,9 +12,9 @@ import java.util.UUID;
 public class FileStore {
 
     // 루트 경로 불러오기
-    private final String rootPath = System.getProperty("user.dir");
+    private final String rootPath = System.getProperty("user.dir/");
     // 프로젝트 루트 경로에 있는 files 디렉토리
-    private final String fileDir = rootPath + "/img/";
+    private final String fileDir = "/Users/jaehoonkim/Desktop/graduation/public/";
 
     public String getFullPath(String filename) {
         return fileDir + filename;

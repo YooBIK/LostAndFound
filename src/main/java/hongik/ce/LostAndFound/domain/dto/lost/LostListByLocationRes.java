@@ -1,4 +1,4 @@
-package hongik.ce.LostAndFound.domain.dto.found;
+package hongik.ce.LostAndFound.domain.dto.lost;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class FoundListByLocationRes {
+public class LostListByLocationRes {
+
     private String location;
     private Long count;
 }

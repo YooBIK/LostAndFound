@@ -90,25 +90,4 @@ public class FoundController {
             return new Response<>(e.getResponseStatus());
         }
     }
-
-    @GetMapping("/location")
-    public Response<List<FoundListByLocationRes>, Object> getFoundListByLocation() {
-        try {
-            List<FoundListByLocationRes> result = foundService.countAllByLocation();
-            return new Response<>(result);
-        } catch (BaseException e) {
-            return new Response<>(DATABASE_ERROR);
-        }
-    }
-
-    @GetMapping("/location/{foundLocation}")
-    public Response<List<FoundListRes>, Object> getFoundListByFoundLocation(@PathVariable String foundLocation) {
-        try {
-            List<FoundListRes> result = foundService.findAllByLocation(foundLocation);
-            return new Response<>(result);
-        } catch (BaseException e) {
-            return new Response<>(DATABASE_ERROR);
-        }
-
-    }
 }
