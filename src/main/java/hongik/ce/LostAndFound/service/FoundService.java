@@ -26,6 +26,7 @@ import javax.transaction.Transactional;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -91,8 +92,11 @@ public class FoundService {
         try {
             imageFile = fileStore.storeFile(multipartFile);
         } catch (Exception e) {
+            System.out.println(Arrays.toString(e.getStackTrace()));
             throw new BaseException(CANNOT_STORE_FILE);
         }
+        log.info("storeFileName = {}",imageFile.getStoreFilename());
+        log.info("UploadFileName = {}",imageFile.getUploadFilename());
 
 
         Date now = new Date();
